@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
-import { UserNav } from "@/components/user-nav";
 import { Navbar } from "@/components/navbar";
 import { ModeToggle } from "@/components/toggle-theme-button";
 import { cn } from "@/lib/utils";
