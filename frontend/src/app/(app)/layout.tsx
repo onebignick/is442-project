@@ -5,7 +5,6 @@ import { Navbar } from "@/components/navbar";
 import { ModeToggle } from "@/components/toggle-theme-button";
 import { cn } from "@/lib/utils";
 import { fontSans } from "@/lib/fonts";
-import { ClerkProvider } from "@clerk/nextjs";
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 
 export const metadata: Metadata = {
