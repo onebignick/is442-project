@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
-import { ThemeProvider } from "@/components/theme-provider";
 import "../globals.css";
-import { Navbar } from "@/components/navbar";
 import { ModeToggle } from "@/components/toggle-theme-button";
 import { cn } from "@/lib/utils";
 import { fontSans } from "@/lib/fonts";
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import { Navbar } from "@/components/navbar/shop-navbar";
 
 export const metadata: Metadata = {
   title: "IS442 Project",
@@ -20,9 +19,8 @@ export default function RootLayout({
   return (
       <html lang="en">
         <body className={cn("min-h-screen bg-background font-sans antialiased", fontSans.variable)}>
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
             <div className="flex flex-row justify-between p-4 items-center">
-              <Navbar className="mx-6" />
+                <Navbar/>
               <div className="flex flex-row gap-4 items-center">
                 <ModeToggle />
                 <SignedOut>
@@ -34,7 +32,6 @@ export default function RootLayout({
               </div>
             </div>
             {children}
-          </ThemeProvider>
         </body>
       </html>
   );
