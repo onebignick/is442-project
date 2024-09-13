@@ -1,4 +1,4 @@
-import { pgTableCreator, varchar, uuid, date, integer } from "drizzle-orm/pg-core";
+import { pgTableCreator, varchar } from "drizzle-orm/pg-core";
 
 export const createTable = pgTableCreator((name) => `is442_${name}`);
 
