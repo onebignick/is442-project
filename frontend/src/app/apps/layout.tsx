@@ -19,18 +19,6 @@ export default function RootLayout({
   return (
       <html lang="en">
         <body className={cn("min-h-screen bg-background font-sans antialiased", fontSans.variable)}>
-            <div className="flex flex-row justify-between p-4 items-center">
-              <Navbar className="mx-6" />
-              <div className="flex flex-row gap-4 items-center">
-                <ModeToggle />
-                <SignedOut>
-                  <SignInButton />
-                </SignedOut>
-                <SignedIn>
-                  <UserButton />
-                </SignedIn>
-              </div>
-            </div>
             {children}
         </body>
       </html>

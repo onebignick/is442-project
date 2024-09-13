@@ -1,5 +1,6 @@
 import { validateRole } from "@/lib/validateRole";
 import { redirect } from "next/navigation";
+import { TotalSalesChart } from "./_charts/total-sales-chart";
 
 export default function SalesApp() {
   const allowedRoles = new Set(["sales", "admin"])
@@ -8,8 +9,8 @@ export default function SalesApp() {
     redirect("/")
   }
   return (
-    <div>
-      This is the sales page
+    <div className="px-4">
+      <TotalSalesChart/>
     </div>
   );
 }
