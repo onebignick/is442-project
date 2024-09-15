@@ -1,7 +1,19 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { DataTable } from "./_datatable/DataTable";
+import { columns } from "./_datatable/DataTableColumns";
+import { Product } from "@/types/Product";
 
-export default function SalesAppProduct() {
+export default async function SalesAppProduct() {
+
+    const findAllProducts = async () => {
+        const response = await fetch("http://localhost:8080/products");
+        const json = await response.json();
+        return json;
+    }
+
+    const products: Product[] = await findAllProducts();
+
     return (
         <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8 lg:grid-cols-3 xl:grid-cols-3">
             <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2">
@@ -16,6 +28,9 @@ export default function SalesAppProduct() {
                         <Button>Create new Product</Button>
                     </CardFooter>
                 </Card>
+            </div>
+            <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2">
+                <DataTable columns={columns} data={products}/>
             </div>
         </main>
     )

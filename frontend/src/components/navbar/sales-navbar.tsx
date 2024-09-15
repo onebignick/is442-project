@@ -1,5 +1,6 @@
 import { Search } from "lucide-react";
 import { Input } from "../ui/input";
+import { SignedOut, SignedIn, SignInButton, UserButton } from "@clerk/nextjs";
 
 export function SalesNavbar() {
     return (
@@ -8,6 +9,12 @@ export function SalesNavbar() {
                 <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground"/>
                 <Input type="search" placeholder="Search..." className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[336px]"/>
             </div>
+            <SignedOut>
+                <SignInButton />
+            </SignedOut>
+            <SignedIn>
+                <UserButton />
+            </SignedIn>
         </nav>
     )
 }

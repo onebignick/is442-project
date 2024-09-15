@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import "../globals.css";
 import { ModeToggle } from "@/components/toggle-theme-button";
-import { cn } from "@/lib/utils";
-import { fontSans } from "@/lib/fonts";
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import { Navbar } from "@/components/navbar/shop-navbar";
 
@@ -17,22 +15,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-      <html lang="en">
-        <body className={cn("min-h-screen bg-background font-sans antialiased", fontSans.variable)}>
-            <div className="flex flex-row justify-between p-4 items-center">
-                <Navbar/>
-              <div className="flex flex-row gap-4 items-center">
-                <ModeToggle />
-                <SignedOut>
-                  <SignInButton />
-                </SignedOut>
-                <SignedIn>
-                  <UserButton />
-                </SignedIn>
-              </div>
-            </div>
-            {children}
-        </body>
-      </html>
+    <div>
+      <div className="flex flex-row justify-between p-4 items-center">
+          <Navbar/>
+        <div className="flex flex-row gap-4 items-center">
+          <ModeToggle />
+          <SignedOut>
+            <SignInButton />
+          </SignedOut>
+          <SignedIn>
+            <UserButton />
+          </SignedIn>
+        </div>
+      </div>
+      {children}
+    </div>
   );
 }
