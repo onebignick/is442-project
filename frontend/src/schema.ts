@@ -13,7 +13,7 @@ export const user = createTable("user", {
 });
 
 export const customer = createTable("customer", {
-	id: uuid("id").defaultRandom().primaryKey(),
+	id: varchar("id", {length: 32}).primaryKey()
 })
 
 export const saleType = createTable("sale_type", {
@@ -39,6 +39,6 @@ export const order = createTable("order", {
 export const orderLineItem = createTable("order_line_item", {
 	id: uuid("id").defaultRandom().primaryKey(),
 	orderId: uuid("order_id").references(() => order.id),
-	customerId: uuid("customer_id").references(() => customer.id),
+	customerId: varchar("customer_id", {length:32}).references(() => customer.id),
 	priceId: varchar("price_id", {length:32}).references(()=>price.id)
 })

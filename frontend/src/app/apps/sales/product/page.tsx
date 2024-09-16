@@ -3,6 +3,7 @@ import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/comp
 import { DataTable } from "./_datatable/DataTable";
 import { columns } from "./_datatable/DataTableColumns";
 import { Product } from "@/types/Product";
+import Link from "next/link";
 
 export default async function SalesAppProduct() {
 
@@ -25,7 +26,11 @@ export default async function SalesAppProduct() {
                         </CardDescription>
                     </CardHeader>
                     <CardFooter>
-                        <Button>Create new Product</Button>
+                        <Button>
+                            <Link href="/apps/sales/product/create">
+                            Create new Product
+                            </Link>
+                        </Button>
                     </CardFooter>
                 </Card>
             </div>
