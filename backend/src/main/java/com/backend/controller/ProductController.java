@@ -1,10 +1,11 @@
-package com.example.backend.controller;
+package com.backend.controller;
 
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.GetMapping;
 
-import com.example.backend.entity.Product;
-import com.example.backend.repository.ProductRepository;
+import com.backend.entity.Product;
+import com.backend.repository.ProductRepository;
+
+import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
 public class ProductController {

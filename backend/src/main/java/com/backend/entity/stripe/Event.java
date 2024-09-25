@@ -1,4 +1,4 @@
-package com.example.backend.entity.stripe;
+package com.backend.entity.stripe;
 
 import java.util.Map;
 

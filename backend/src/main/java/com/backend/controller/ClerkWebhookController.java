@@ -1,12 +1,12 @@
-package com.example.backend.controller;
+package com.backend.controller;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.backend.entity.ClerkWebhookEvent;
-import com.example.backend.entity.User;
-import com.example.backend.repository.UserRepository;
+import com.backend.entity.ClerkWebhookEvent;
+import com.backend.entity.User;
+import com.backend.repository.UserRepository;
 
 import java.util.Map;
 import java.util.Optional;

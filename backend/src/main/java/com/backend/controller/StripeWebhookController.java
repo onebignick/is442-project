@@ -1,8 +1,9 @@
-package com.example.backend.controller;
+package com.backend.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.backend.repository.ProductRepository;
+import com.backend.repository.ProductRepository;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
