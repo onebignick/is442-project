@@ -16,10 +16,10 @@ export const customer = createTable("customer", {
 	id: varchar("id", {length: 32}).primaryKey()
 })
 
-export const saleType = createTable("sale_type", {
-	id: uuid("id").defaultRandom().primaryKey(),
-	saleType: varchar("sale_type", {length: 32}),
-})
+// export const saleType = createTable("sale_type", {
+// 	id: uuid("id").defaultRandom().primaryKey(),
+// 	saleType: varchar("sale_type", {length: 32}),
+// })
 
 export const product = createTable("product", {
 	id: varchar("id", {length: 32}).primaryKey(),
@@ -34,11 +34,16 @@ export const price = createTable("price", {
 
 export const order = createTable("order", {
 	id: uuid("id").defaultRandom().primaryKey(),
+	saleDate: varchar("sale_date", { length: 32 }),
+	saleType: varchar("sale_type", {length: 32}),
+	// mode: varchar("mode", { length: 32 }),
+	customerId: varchar("customer_id", {length:32}).references(() => customer.id),
 })
 
 export const orderLineItem = createTable("order_line_item", {
 	id: uuid("id").defaultRandom().primaryKey(),
 	orderId: uuid("order_id").references(() => order.id),
-	customerId: varchar("customer_id", {length:32}).references(() => customer.id),
-	priceId: varchar("price_id", {length:32}).references(()=>price.id)
+	// customerId: varchar("customer_id", {length:32}).references(() => customer.id),
+	priceId: varchar("price_id", {length:32}).references(()=>price.id),
+	orderQuantity: varchar("order_quantity", { length: 32 })
 })
