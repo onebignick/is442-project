@@ -19,12 +19,12 @@ public class CustomerService {
         return oCustomer.get();
     }
 
-    public void createOneCustomer(Customer customer) throws CustomerAlreadyExistsException {
+    public Customer createOneCustomer(Customer customer) throws CustomerAlreadyExistsException {
         try {
             this.findById(customer.getId());
         } catch (CustomerNotFoundException e) {
             Customer newCustomer = this.customerRepository.save(customer);
-            return;
+            return newCustomer;
         }
         throw new CustomerAlreadyExistsException();
     }
