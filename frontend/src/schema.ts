@@ -1,4 +1,4 @@
-import { pgTableCreator, uuid, varchar } from "drizzle-orm/pg-core";
+import { integer, pgTableCreator, timestamp, varchar } from "drizzle-orm/pg-core";
 
 export const createTable = pgTableCreator((name) => `is442_${name}`);
 
@@ -13,32 +13,33 @@ export const user = createTable("user", {
 });
 
 export const customer = createTable("customer", {
-	id: varchar("id", {length: 32}).primaryKey()
-})
-
-export const saleType = createTable("sale_type", {
-	id: uuid("id").defaultRandom().primaryKey(),
-	saleType: varchar("sale_type", {length: 32}),
+	id: varchar("id", {length: 32}).primaryKey(),
+	name: varchar("name", {length: 50}),
+	email: varchar("email", {length: 50})
 })
 
 export const product = createTable("product", {
 	id: varchar("id", {length: 32}).primaryKey(),
-	productName: varchar("product_name", { length: 100 }),
-})
-
-export const price = createTable("price", {
-	id: varchar("id", {length:32}).primaryKey(),
-	price: varchar("price", {length:32}),
-	productId: varchar("product_id", {length:32}).references(()=>product.id)
+	productName: varchar("name", { length: 50})
 })
 
 export const order = createTable("order", {
-	id: uuid("id").defaultRandom().primaryKey(),
+	id: varchar("id", {length: 32}).primaryKey(),
+	customerId: varchar("customer_id", {length: 32}).references(() => customer.id),
+	orderDate: timestamp("order_date"),
+	shippingMethod: varchar("shipping_method", {length: 50}),
+	saleType: varchar("sale_type", {length: 50})
+})
+
+
+export const price = createTable("price", {
+	id: varchar("price", {length: 32}).primaryKey(),
+	productId: varchar("product_id", {length: 32}).references(() => product.id)
 })
 
 export const orderLineItem = createTable("order_line_item", {
-	id: uuid("id").defaultRandom().primaryKey(),
-	orderId: uuid("order_id").references(() => order.id),
-	customerId: varchar("customer_id", {length:32}).references(() => customer.id),
-	priceId: varchar("price_id", {length:32}).references(()=>price.id)
+	id: varchar("id", {length: 32}).primaryKey(),
+	orderId: varchar("order_id", {length: 32}).references(() => order.id),
+	priceId: varchar("price_id", {length: 32}).references(() => price.id),
+	quantity: integer("quantity")
 })
