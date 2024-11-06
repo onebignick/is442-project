@@ -42,7 +42,36 @@ export function CreateUserForm() {
     });
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values);
+        try {
+            const payload = {
+                ...values,
+                roles: values.roles.join(",")
+            };
+
+            const response = await fetch("http://localhost:8080/api/user", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                }, 
+                body: JSON.stringify(payload),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log("User created successfully: ", data);
+                form.reset({
+                    username: "",
+                    password: "",
+                    roles: []
+                });
+            } else {
+                console.error("Failed to create user.")
+            }
+        }
+
+        catch (error) {
+            console.error("An error occurred: ", error);
+        }
     }
 
     return(
