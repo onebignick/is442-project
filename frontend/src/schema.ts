@@ -3,7 +3,7 @@ import { integer, pgTableCreator, timestamp, varchar } from "drizzle-orm/pg-core
 export const createTable = pgTableCreator((name) => `is442_${name}`);
 
 export const user = createTable("user", {
-	username: varchar("username", { length: 32 }),
+	username: varchar("username", { length: 32 }).primaryKey(),
 	password: varchar("password"),
 	roles: varchar("roles"),
 });

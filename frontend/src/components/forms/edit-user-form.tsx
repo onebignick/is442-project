@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 import { User } from "@/types/User";
+import { useToast } from "@/hooks/use-toast";
 
 const formSchema = z.object({
     username: z.string(),
@@ -39,6 +40,8 @@ interface UpdateUserFormProps {
 
 export function EditUserForm({ targetUser } : UpdateUserFormProps) {
 
+    const { toast } = useToast();
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -49,7 +52,29 @@ export function EditUserForm({ targetUser } : UpdateUserFormProps) {
     });
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values);
+        const res = await fetch("http://localhost:8080/api/user", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                username: values.username,
+                password: values.password,
+                roles: JSON.stringify(values.roles)
+            }),
+        })
+        
+        if (res.ok) {
+            toast({
+                title: "Success",
+                description: "User information was successfully updated"
+            })
+        } else {
+            toast({
+                title: "Uh oh! Something went wrong",
+                description: "There was a problem with your request. "
+            })
+        }
     }
 
     return(
