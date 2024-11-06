@@ -3,7 +3,7 @@ import { integer, pgTableCreator, timestamp, varchar } from "drizzle-orm/pg-core
 export const createTable = pgTableCreator((name) => `is442_${name}`);
 
 export const user = createTable("user", {
-	username: varchar("username", { length: 32 }),
+	username: varchar("username", { length: 32 }).primaryKey(),
 	password: varchar("password"),
 	roles: varchar("roles"),
 });
@@ -22,9 +22,10 @@ export const product = createTable("product", {
 export const order = createTable("order", {
 	id: varchar("id", {length: 32}).primaryKey(),
 	customerId: varchar("customer_id", {length: 32}).references(() => customer.id),
-	orderDate: timestamp("order_date"),
+	salesDate: varchar("sales_date", {length: 50}),
+	saleType: varchar("sale_type", {length: 50}),
 	shippingMethod: varchar("shipping_method", {length: 50}),
-	saleType: varchar("sale_type", {length: 50})
+	address: varchar("address", {length: 50})
 })
 
 
@@ -38,4 +39,10 @@ export const orderLineItem = createTable("order_line_item", {
 	orderId: varchar("order_id", {length: 32}).references(() => order.id),
 	priceId: varchar("price_id", {length: 32}).references(() => price.id),
 	quantity: integer("quantity")
+})
+
+export const template = createTable("template", {
+	id: varchar("id", {length: 32}).primaryKey(),
+	name: varchar("name", {length: 50}),
+	content: varchar("content", {length: 5000})
 })

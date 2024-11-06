@@ -1,5 +1,6 @@
 import { EditUserForm } from "@/components/forms/edit-user-form";
 import { User } from "@/types/User";
+import { UserDTO } from "@/types/UserDTO";
 
 export default async function EditUserPage({ params } : { params: { username: string }}) {
 
@@ -9,9 +10,10 @@ export default async function EditUserPage({ params } : { params: { username: st
     
     if (res.ok) {
         const response = await res.json();
-        
+        const userDTO: UserDTO = new UserDTO(response.username, response.password, response.roles);
+        const targetUser: User = userDTO.toUser();
         return (
-            <EditUserForm targetUser={response as User}/>
+            <EditUserForm targetUser={targetUser}/>
         )
     } else {
         return (

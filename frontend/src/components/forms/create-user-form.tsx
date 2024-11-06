@@ -5,9 +5,9 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { Input } from "../ui/input";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
+import { useToast } from "@/hooks/use-toast";
 
 const formSchema = z.object({
     username: z.string(),
@@ -34,6 +34,8 @@ const roles = [
 
 export function CreateUserForm() {
 
+    const { toast } = useToast();
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -57,15 +59,22 @@ export function CreateUserForm() {
             });
 
             if (response.ok) {
-                const data = await response.json();
-                console.log("User created successfully: ", data);
+                // const data = await response.json();
+                // console.log("User created successfully: ", data);
                 form.reset({
                     username: "",
                     password: "",
                     roles: []
                 });
+                toast({
+                    title: "Success",
+                    description: "User created successfully"
+                })
             } else {
-                console.error("Failed to create user.")
+                toast({
+                    title: "Uh oh! Something went wrong",
+                    description: "There was a problem when creating the user"
+                })
             }
         }
 
