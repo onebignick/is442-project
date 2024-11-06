@@ -9,18 +9,18 @@ export const user = createTable("user", {
 });
 
 export const customer = createTable("customer", {
-	id: varchar("id", {length: 32}).primaryKey(),
+	id: varchar("id", {length: 255}).primaryKey(),
 	name: varchar("name", {length: 50}),
 	email: varchar("email", {length: 50})
 })
 
 export const product = createTable("product", {
-	id: varchar("id", {length: 32}).primaryKey(),
+	id: varchar("id", {length: 255}).primaryKey(),
 	productName: varchar("name", { length: 50})
 })
 
 export const order = createTable("order", {
-	id: varchar("id", {length: 32}).primaryKey(),
+	id: varchar("id", {length: 255}).primaryKey(),
 	customerId: varchar("customer_id", {length: 32}).references(() => customer.id),
 	salesDate: timestamp("sales_date"),
 	saleType: varchar("sale_type", {length: 50}),
@@ -30,19 +30,19 @@ export const order = createTable("order", {
 
 
 export const price = createTable("price", {
-	id: varchar("price", {length: 32}).primaryKey(),
+	id: varchar("price", {length: 255}).primaryKey(),
 	productId: varchar("product_id", {length: 32}).references(() => product.id)
 })
 
 export const orderLineItem = createTable("order_line_item", {
-	id: varchar("id", {length: 32}).primaryKey(),
+	id: varchar("id", {length: 255}).primaryKey(),
 	orderId: varchar("order_id", {length: 32}).references(() => order.id),
 	priceId: varchar("price_id", {length: 32}).references(() => price.id),
 	quantity: integer("quantity")
 })
 
 export const template = createTable("template", {
-	id: varchar("id", {length: 32}).primaryKey(),
+	id: varchar("id", {length: 255}).primaryKey(),
 	name: varchar("name", {length: 50}),
 	content: varchar("content", {length: 5000})
 })

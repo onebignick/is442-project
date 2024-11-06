@@ -8,7 +8,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.*;
 import com.backend.customer.Customer;
-
+import java.util.UUID;
 
 
 @Getter
@@ -22,7 +22,7 @@ import com.backend.customer.Customer;
 public class Order {
     
     @Id
-    private String id;
+    private String id = UUID.randomUUID().toString();
     // Many orders can be associated with one customer
     @ManyToOne
     @JoinColumn(name = "custID", referencedColumnName = "id", nullable = false) // Foreign key column

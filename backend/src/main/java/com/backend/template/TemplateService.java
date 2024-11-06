@@ -2,8 +2,6 @@ package com.backend.template;
 
 import org.springframework.stereotype.Service;
 
-import com.backend.user.UserNotFoundException;
-
 import java.util.Optional;
 
 @Service

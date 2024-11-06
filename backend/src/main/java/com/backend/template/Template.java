@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.*;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -15,7 +16,7 @@ import lombok.*;
 
 public class Template {
     @Id
-    private String id;
+    private String id = UUID.randomUUID().toString();
     private String name;
     private String content;
 }
