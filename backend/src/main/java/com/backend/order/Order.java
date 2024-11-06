@@ -28,7 +28,7 @@ public class Order {
     @JoinColumn(name = "custID", referencedColumnName = "id", nullable = false) // Foreign key column
     private Customer customer;
 
-    private Date salesDate;
+    private String salesDate;
     private String salesType;
     private String shippingMethod;
     private String address;
