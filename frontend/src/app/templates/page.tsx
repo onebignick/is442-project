@@ -2,6 +2,7 @@ import { TemplateDataTable } from "@/components/datatables/templates/TemplateDat
 import { TemplateDataTableColumns } from "@/components/datatables/templates/TemplateDataTableColumns"
 import { FormDialogButton } from "@/components/form-dialog-button"
 import { CreateTemplateForm } from "@/components/forms/create-template-form"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default async function TemplatesPage() {
 
@@ -11,14 +12,29 @@ export default async function TemplatesPage() {
         const templates = await req.json();
 
         return (
-            <div>
-                <FormDialogButton
-                    title="Create a template"
-                    label="Create a template"
-                    description="Fill in the form below to create a new template"
-                    form={<CreateTemplateForm/>}
-                />
-                <TemplateDataTable columns={TemplateDataTableColumns} data={templates}/>
+            <div className="grid grid-cols-12 gap-4">
+                <Card className="col-span-4">
+                    <CardHeader>
+                        <CardTitle>Create a newsletter template here</CardTitle>
+                    </CardHeader>
+                    <CardFooter>
+                        <FormDialogButton
+                            title="Create a template"
+                            label="Create a template"
+                            description="Fill in the form below to create a new template"
+                            form={<CreateTemplateForm/>}
+                        />
+                    </CardFooter>
+                </Card>
+                <Card className="col-span-12">
+                    <CardHeader>
+                        <CardTitle>All Newsletter Templates</CardTitle>
+                        <CardDescription>View all your newsletter templates here</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <TemplateDataTable columns={TemplateDataTableColumns} data={templates}/>
+                    </CardContent>
+                </Card>
             </div>
         )
     } else {

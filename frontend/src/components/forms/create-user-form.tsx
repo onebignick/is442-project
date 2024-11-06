@@ -3,18 +3,16 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { Checkbox } from "../ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 
 const formSchema = z.object({
     username: z.string(),
     password: z.string(),
-    roles: z.array(z.string()).refine((value) => value.some((item) => item), {
-        message: "You must select at least one role",
-    }),
+    roles: z.string(),
 })
 
 const roles = [
@@ -38,16 +36,13 @@ export function CreateUserForm() {
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
-        defaultValues: {
-            roles: []
-        }
     });
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         try {
             const payload = {
                 ...values,
-                roles: values.roles.join(",")
+                roles: values.roles
             };
 
             const response = await fetch("http://localhost:8080/api/user", {
@@ -64,7 +59,7 @@ export function CreateUserForm() {
                 form.reset({
                     username: "",
                     password: "",
-                    roles: []
+                    roles: "",
                 });
                 toast({
                     title: "Success",
@@ -117,54 +112,28 @@ export function CreateUserForm() {
             </div>
 
             <div className="rounded-lg space-y-3">
-                <FormField
+            <FormField
                 control={form.control}
                 name="roles"
-                render={() => (
+                render={({ field }) => (
                     <FormItem>
-                    <div>
-                        <FormLabel className="text-base">Roles</FormLabel>
-                        <FormDescription>
-                        Select the roles you want the user to have.
-                        </FormDescription>
-                    </div>
-                    {roles.map((role) => (
-                        <FormField
-                        key={role.id}
-                        control={form.control}
-                        name="roles"
-                        render={({ field }) => {
-                            return (
-                            <FormItem
-                                key={role.id}
-                                className="flex flex-row items-start space-x-3 space-y-0"
-                            >
-                                <FormControl>
-                                <Checkbox
-                                    checked={field.value?.includes(role.id)}
-                                    onCheckedChange={(checked) => {
-                                    return checked
-                                        ? field.onChange([...field.value, role.id])
-                                        : field.onChange(
-                                            field.value?.filter(
-                                            (value) => value !== role.id
-                                            )
-                                        )
-                                    }}
-                                />
-                                </FormControl>
-                                <FormLabel className="font-normal">
-                                {role.label}
-                                </FormLabel>
-                            </FormItem>
-                            )
-                        }}
-                        />
-                    ))}
+                    <FormLabel>Select role</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                        <SelectTrigger>
+                            <SelectValue placeholder="Select the role" />
+                        </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                            {roles.map((item) => {
+                                return <SelectItem key={item.id} value={item.id}>{item.label}</SelectItem>
+                            })}
+                        </SelectContent>
+                    </Select>
                     <FormMessage />
                     </FormItem>
                 )}
-                />
+            />
             </div>
 
             <div className="flex justify-center">

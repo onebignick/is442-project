@@ -3,21 +3,19 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { Input } from "../ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Button } from "../ui/button";
-import { Checkbox } from "../ui/checkbox";
 import { User } from "@/types/User";
 import { useToast } from "@/hooks/use-toast";
 import { BreadcrumbComponent } from '@/components/breadcrumb-component';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 
 const formSchema = z.object({
     username: z.string(),
     password: z.string(),
-    roles: z.array(z.string()).refine((value) => value.some((item) => item), {
-        message: "You must select at least one role",
-    }),
+    roles: z.string(),
 })
 
 const roles = [
@@ -53,7 +51,7 @@ export function EditUserForm({ targetUser } : UpdateUserFormProps) {
         defaultValues: {
             username: targetUser.username,
             password: targetUser.password,
-            roles: targetUser.roles ? targetUser.roles : []
+            roles: targetUser.roles,
         }
     });
 
@@ -66,7 +64,7 @@ export function EditUserForm({ targetUser } : UpdateUserFormProps) {
             body: JSON.stringify({
                 username: values.username,
                 password: values.password,
-                roles: values.roles.join(","),
+                roles: values.roles,
             }),
         })
         
@@ -121,52 +119,26 @@ export function EditUserForm({ targetUser } : UpdateUserFormProps) {
                             )}
                         />
                         <FormField
-                        control={form.control}
-                        name="roles"
-                        render={() => (
-                            <FormItem>
-                            <div className="mb-4">
-                                <FormLabel className="text-base">Roles</FormLabel>
-                                <FormDescription>
-                                Select the roles you want the user to have.
-                                </FormDescription>
-                            </div>
-                            {roles.map((role) => (
-                                <FormField
-                                key={role.id}
-                                control={form.control}
-                                name="roles"
-                                render={({ field }) => {
-                                    return (
-                                    <FormItem
-                                        key={role.id}
-                                        className="flex flex-row items-start space-x-3 space-y-0"
-                                    >
-                                        <FormControl>
-                                        <Checkbox
-                                            checked={field.value?.includes(role.id)}
-                                            onCheckedChange={(checked) => {
-                                            return checked
-                                                ? field.onChange([...field.value, role.id])
-                                                : field.onChange(
-                                                    field.value?.filter(
-                                                    (value) => value !== role.id
-                                                    )
-                                                )
-                                            }}
-                                        />
-                                        </FormControl>
-                                        <FormLabel className="font-normal">
-                                        {role.label}
-                                        </FormLabel>
-                                    </FormItem>
-                                    )
-                                }}
-                                />
-                            ))}
-                            <FormMessage />
-                            </FormItem>
-                        )}
+                            control={form.control}
+                            name="roles"
+                            render={({ field }) => (
+                                <FormItem>
+                                <FormLabel>Select role</FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={targetUser.roles}>
+                                    <FormControl>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Select a role" />
+                                    </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                        {roles.map((item) => {
+                                            return <SelectItem key={item.id} value={item.id}>{item.label}</SelectItem>
+                                        })}
+                                    </SelectContent>
+                                </Select>
+                                <FormMessage />
+                                </FormItem>
+                            )}
                         />
                         <Button type="submit" className="col-span-2">
                             Submit
