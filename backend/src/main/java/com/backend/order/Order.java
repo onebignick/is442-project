@@ -29,7 +29,7 @@ public class Order {
     private Customer customer;
 
     private String salesDate;
-    private String saleType;
+    private String salesType;
     private String shippingMethod;
     private String address;
 

@@ -15,8 +15,27 @@ public class OrderController {
         return orderService.findById(id);
     }
 
+    @GetMapping("/api/orders")
+    public Iterable<Order> getAllOrders() {
+        return orderService.getAllOrders();
+    }
+
+    @PutMapping("/api/order")
+    public Order updateOrder(@RequestBody Order order) throws Exception {
+       return orderService.updateOneOrder(order);
+    }
+
     @PostMapping("/api/order")
     public Order createOrder(@RequestBody Order order) throws Exception {
-        return orderService.createOneOrder(order);
+       return orderService.createOneOrder(order);
     }
+
+    @DeleteMapping("/api/order")
+    public String deleteOrder(@RequestBody Order order) throws Exception {
+       return orderService.deleteOneOrder(order);
+    }
+ 
+
+
+ 
 }
