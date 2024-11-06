@@ -1,7 +1,6 @@
 "use client"
 import React from 'react';
 import ActionButton from "@/components/action-button";
-import { CreateUserForm } from "@/components/forms/create-user-form";
 
 export default function Page() {
     const handleCreate = () => {

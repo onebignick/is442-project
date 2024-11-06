@@ -37,12 +37,14 @@ interface UpdateUserFormProps {
     targetUser: User;
 }
 
-export function UpdateUserForm({ targetUser } : UpdateUserFormProps) {
+export function EditUserForm({ targetUser } : UpdateUserFormProps) {
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            roles: targetUser.roles
+            username: targetUser.username,
+            password: targetUser.password,
+            roles: targetUser.roles ? targetUser.roles : []
         }
     });
 
@@ -55,7 +57,7 @@ export function UpdateUserForm({ targetUser } : UpdateUserFormProps) {
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 shadow-lg">
                     <CardHeader>
-                        <CardTitle className = "text-center">Create an event</CardTitle>
+                        <CardTitle className = "text-center">Edit User Information</CardTitle>
                     </CardHeader>
                     <CardContent className="grid grid-cols-2 gap-4">
                         {/* Participants Field */}
@@ -65,7 +67,7 @@ export function UpdateUserForm({ targetUser } : UpdateUserFormProps) {
                             render={({ field }) => (
                                 <FormItem className="col-span-2 sm:col-span-1">
                                     <FormControl>
-                                        <Input type="string" defaultValue={targetUser.username} placeholder="Username" {...field}/>
+                                        <Input type="string" placeholder="Username" {...field}/>
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -77,7 +79,7 @@ export function UpdateUserForm({ targetUser } : UpdateUserFormProps) {
                             render={({ field }) => (
                                 <FormItem className="col-span-2 sm:col-span-1">
                                     <FormControl>
-                                        <Input type="string" defaultValue={targetUser.password} placeholder="Password" {...field}/>
+                                        <Input type="string" placeholder="Password" {...field}/>
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
