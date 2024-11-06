@@ -1,6 +1,11 @@
 package com.backend.user;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.ErrorResponse;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+
 import java.util.Optional;
 
 @Service
@@ -16,6 +21,10 @@ public class UserService {
         if (oUser.isEmpty()) throw new UserNotFoundException();
 
         return oUser.get();
+    }
+    
+    public Iterable<User> getAllUsers() {
+        return userRepository.findAll();
     }
 
     public User createOneUser(User user) throws UserAlreadyExistsException {
@@ -43,8 +52,10 @@ public class UserService {
             updatedUser = this.userRepository.save(user);
             return updatedUser;
         } catch (UserNotFoundException e) {
+
             //do nothing
         }
         throw new UserNotFoundException();
     }
+
 }

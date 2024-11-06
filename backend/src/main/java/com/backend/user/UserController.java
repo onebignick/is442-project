@@ -18,6 +18,11 @@ public class UserController {
    public User getUserById(@PathVariable String username) throws Exception {
       return userService.findById(username);
    }
+   @GetMapping("/api/users")
+   public Iterable<User> getAllUsers() {
+       return userService.getAllUsers();
+   }
+
 
    @PostMapping("/api/user")
    public User createUser(@RequestBody User user) throws Exception {
@@ -33,4 +38,7 @@ public class UserController {
    public User updateUser(@RequestBody User user) throws Exception {
       return userService.updateOneUser(user);
    }
+
+   
+
 }
