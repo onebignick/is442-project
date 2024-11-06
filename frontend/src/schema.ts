@@ -39,3 +39,9 @@ export const orderLineItem = createTable("order_line_item", {
 	priceId: varchar("price_id", {length: 32}).references(() => price.id),
 	quantity: integer("quantity")
 })
+
+export const template = createTable("template", {
+	id: varchar("id", {length: 32}).primaryKey(),
+	name: varchar("name", {length: 50}),
+	content: varchar("content", {length: 5000})
+})
