@@ -36,21 +36,17 @@ public class TemplateService {
     }
 
     public Template updateOneTemplate(Template template) throws TemplateNotFoundException {
-        try {
             Template updatedTemplate = this.findById(template.getId());
             updatedTemplate = this.templateRepository.save(template);
             return updatedTemplate;
-        } catch (Exception e) {
-            throw new TemplateNotFoundException();
-        }
     }
 
     public Template deleteOneTemplate(Template template) throws TemplateNotFoundException {
-        try {
-            this.templateRepository.deleteById(template.getId());
-            return template;
-        } catch (Exception e) {
+        Optional<Template> oTemplate = templateRepository.findById(template.getId());
+        if (oTemplate.isEmpty()) {
             throw new TemplateNotFoundException();
         }
+        templateRepository.deleteById(template.getId());
+        return oTemplate.get();
     }
 }
