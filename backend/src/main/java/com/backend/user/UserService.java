@@ -37,13 +37,15 @@ public class UserService {
         throw new UserAlreadyExistsException();
     }
 
-    public User deleteOneUser(User user) throws UserNotFoundException {
+    public String deleteOneUser(User user) {
         try {
             this.userRepository.deleteById(user.getUsername());
+            return "User deleted";
         } catch (UserNotFoundException e) {
+            return "User not found";
             //do nothing
         }
-        throw new UserNotFoundException();
+
     }
 
     public User updateOneUser(User user) throws UserNotFoundException {
@@ -52,7 +54,7 @@ public class UserService {
             updatedUser = this.userRepository.save(user);
             return updatedUser;
         } catch (UserNotFoundException e) {
-
+            
             //do nothing
         }
         throw new UserNotFoundException();

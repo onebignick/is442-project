@@ -1,8 +1,10 @@
 package com.backend.user;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,12 +31,13 @@ public class UserController {
       return userService.createOneUser(user);
    }
 
-   @PostMapping("/api/user/delete")
-   public User deleteUser(@RequestBody User user) throws Exception {
+   @DeleteMapping("/api/user")
+   public String deleteUser(@RequestBody User user) throws Exception {
       return userService.deleteOneUser(user);
    }
 
-   @PostMapping("/api/user/update")
+
+   @PutMapping("/api/user")
    public User updateUser(@RequestBody User user) throws Exception {
       return userService.updateOneUser(user);
    }
