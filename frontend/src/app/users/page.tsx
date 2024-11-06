@@ -4,6 +4,7 @@ import { FormDialogButton } from "@/components/form-dialog-button";
 import { CreateUserForm } from "@/components/forms/create-user-form";
 import { UserDTO } from "@/types/UserDTO";
 import { BreadcrumbComponent } from '@/components/breadcrumb-component';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default async function UserPage() {
     try {
@@ -27,17 +28,43 @@ export default async function UserPage() {
             }
             
             return (
-                <div>
+                <>
                     <BreadcrumbComponent items={breadcrumbItems} />
+                    <div className="grid grid-cols-12 gap-4">
+                        <Card className="col-span-3">
+                            <CardHeader>
+                                <CardTitle>
+                                    Create a user
+                                </CardTitle>
+                                <CardDescription>
+                                    Click below to use our form to create a new user!       
+                                </CardDescription>
+                            </CardHeader>
+                            <CardFooter>
+                                <FormDialogButton
+                                    title="Create a user"
+                                    label="Create a user"
+                                    description="Fill in the form below to create a new user"
+                                    form={<CreateUserForm/>}
+                                />
+                            </CardFooter>
+                        </Card>
 
-                    <FormDialogButton
-                        title="Create a user"
-                        label="Create a user"
-                        description="Fill in the form below to create a new user"
-                        form={<CreateUserForm/>}
-                    />
-                    <UserDataTable columns={UserDataTableColumns} data={usersDTO}/>
-                </div>
+                        <Card className="col-span-12">
+                            <CardHeader>
+                                <CardTitle>
+                                    All Users
+                                </CardTitle>
+                                <CardDescription>
+                                    See all user information here
+                                </CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                                <UserDataTable columns={UserDataTableColumns} data={usersDTO}/>
+                            </CardContent>
+                        </Card>
+                    </div>
+                </>
             )
         }
     }
