@@ -36,12 +36,9 @@ public class UserController {
       return userService.deleteOneUser(user);
    }
 
-
    @PutMapping("/api/user")
    public User updateUser(@RequestBody User user) throws Exception {
       return userService.updateOneUser(user);
    }
-
    
-
 }

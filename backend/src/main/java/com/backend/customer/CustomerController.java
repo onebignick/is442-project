@@ -1,5 +1,6 @@
 package com.backend.customer;
 
+import org.apache.catalina.util.CustomObjectInputStream;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,8 +16,24 @@ public class CustomerController {
         return customerService.findById(id);
     }
 
+    @GetMapping("/api/customer")
+    public Iterable<Customer> getAllCustomers() {
+        return customerService.getAllCustomers();
+    }
+
     @PostMapping("/api/customer")
     public Customer createCustomer(@RequestBody Customer customer) throws Exception {
         return customerService.createOneCustomer(customer);
     }
+
+    @DeleteMapping("/api/customer")
+    public String deleteCustomer(@RequestBody Customer customer) throws Exception {
+        return customerService.deleteOneCustomer(customer);
+    }
+
+    @PutMapping("/api/customer")
+    public Customer updateCustomer(@RequestBody Customer customer) throws Exception {
+        return customerService.updateOneCustomer(customer);
+    }
+
 }
