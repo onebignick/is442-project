@@ -30,8 +30,9 @@ export const order = createTable("order", {
 
 
 export const price = createTable("price", {
-	id: varchar("price", {length: 255}).primaryKey(),
-	productId: varchar("product_id", {length: 32}).references(() => product.id)
+	id: varchar("id", {length: 255}).primaryKey(),
+	price: varchar("price", {length: 32}),
+	productId: varchar("product_id", {length: 255}).references(() => product.id)
 })
 
 export const orderLineItem = createTable("order_line_item", {
