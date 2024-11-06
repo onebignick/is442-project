@@ -10,12 +10,12 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    @GetMapping("/api/customer/{id}")
+    @GetMapping("/api/order/{id}")
     public Order getOrderById(@PathVariable String id) throws Exception {
         return orderService.findById(id);
     }
 
-    @PostMapping("/api/customer")
+    @PostMapping("/api/order")
     public Order createOrder(@RequestBody Order order) throws Exception {
         return orderService.createOneOrder(order);
     }
