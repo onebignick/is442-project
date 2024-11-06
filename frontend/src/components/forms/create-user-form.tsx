@@ -46,92 +46,96 @@ export function CreateUserForm() {
     }
 
     return(
-        <Card>
-            <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 shadow-lg">
-                    <CardHeader>
-                        <CardTitle className = "text-center">Create an event</CardTitle>
-                    </CardHeader>
-                    <CardContent className="grid grid-cols-2 gap-4">
-                        {/* Participants Field */}
+        <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
+
+            <div className="pt-2 pb-2 rounded-lg space-y-3">
+                {/* Participants Field */}
+                <FormField
+                    control={form.control}
+                    name="username"
+                    render={({ field }) => (
+                        <FormItem className="col-span-2 sm:col-span-2">
+                            <FormControl>
+                                <Input type="string" placeholder="Username" {...field}/>
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+
+                <FormField
+                    control={form.control}
+                    name="password"
+                    render={({ field }) => (
+                        <FormItem className="col-span-2 sm:col-span-2">
+                            <FormControl>
+                                <Input type="string" placeholder="Password" {...field}/>
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+            </div>
+
+            <div className="rounded-lg space-y-3">
+                <FormField
+                control={form.control}
+                name="roles"
+                render={() => (
+                    <FormItem>
+                    <div>
+                        <FormLabel className="text-base">Roles</FormLabel>
+                        <FormDescription>
+                        Select the roles you want the user to have.
+                        </FormDescription>
+                    </div>
+                    {roles.map((role) => (
                         <FormField
-                            control={form.control}
-                            name="username"
-                            render={({ field }) => (
-                                <FormItem className="col-span-2 sm:col-span-1">
-                                    <FormControl>
-                                        <Input type="string" placeholder="Username" {...field}/>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="password"
-                            render={({ field }) => (
-                                <FormItem className="col-span-2 sm:col-span-1">
-                                    <FormControl>
-                                        <Input type="string" placeholder="Password" {...field}/>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
+                        key={role.id}
                         control={form.control}
                         name="roles"
-                        render={() => (
-                            <FormItem>
-                            <div className="mb-4">
-                                <FormLabel className="text-base">Roles</FormLabel>
-                                <FormDescription>
-                                Select the roles you want the user to have.
-                                </FormDescription>
-                            </div>
-                            {roles.map((role) => (
-                                <FormField
+                        render={({ field }) => {
+                            return (
+                            <FormItem
                                 key={role.id}
-                                control={form.control}
-                                name="roles"
-                                render={({ field }) => {
-                                    return (
-                                    <FormItem
-                                        key={role.id}
-                                        className="flex flex-row items-start space-x-3 space-y-0"
-                                    >
-                                        <FormControl>
-                                        <Checkbox
-                                            checked={field.value?.includes(role.id)}
-                                            onCheckedChange={(checked) => {
-                                            return checked
-                                                ? field.onChange([...field.value, role.id])
-                                                : field.onChange(
-                                                    field.value?.filter(
-                                                    (value) => value !== role.id
-                                                    )
-                                                )
-                                            }}
-                                        />
-                                        </FormControl>
-                                        <FormLabel className="font-normal">
-                                        {role.label}
-                                        </FormLabel>
-                                    </FormItem>
-                                    )
-                                }}
+                                className="flex flex-row items-start space-x-3 space-y-0"
+                            >
+                                <FormControl>
+                                <Checkbox
+                                    checked={field.value?.includes(role.id)}
+                                    onCheckedChange={(checked) => {
+                                    return checked
+                                        ? field.onChange([...field.value, role.id])
+                                        : field.onChange(
+                                            field.value?.filter(
+                                            (value) => value !== role.id
+                                            )
+                                        )
+                                    }}
                                 />
-                            ))}
-                            <FormMessage />
+                                </FormControl>
+                                <FormLabel className="font-normal">
+                                {role.label}
+                                </FormLabel>
                             </FormItem>
-                        )}
+                            )
+                        }}
                         />
-                        <Button type="submit" className="col-span-2">
-                            Submit
-                        </Button>
-                    </CardContent>
-                </form>
-            </Form>
-        </Card>
+                    ))}
+                    <FormMessage />
+                    </FormItem>
+                )}
+                />
+            </div>
+
+            <div className="flex justify-center">
+                <Button type="submit" className="col-span-2">
+                    Submit
+                </Button>
+            </div>
+
+            </form>
+        </Form>
     )
 }
