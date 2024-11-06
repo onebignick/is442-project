@@ -1,6 +1,7 @@
 package com.backend.order;
 
 import org.springframework.web.bind.annotation.*;
+import java.util.*;
 
 @RestController
 public class OrderController {
@@ -18,6 +19,11 @@ public class OrderController {
     @GetMapping("/api/orders")
     public Iterable<Order> getAllOrders() {
         return orderService.getAllOrders();
+    }
+
+    @GetMapping("/api/orders/price")
+    public List<Map<String, Object>> getAllOrdersWithTotalPrice() {
+        return orderService.getAllOrdersWithTotalPrice();
     }
 
     @PutMapping("/api/order")
