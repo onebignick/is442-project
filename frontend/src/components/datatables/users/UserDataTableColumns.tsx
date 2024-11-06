@@ -1,8 +1,11 @@
 "use client"
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown } from "lucide-react";
+import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { User } from "@/types/User";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import Link from "next/link";
+
 
 export const UserDataTableColumns: ColumnDef<User>[] = [
     {
@@ -47,4 +50,33 @@ export const UserDataTableColumns: ColumnDef<User>[] = [
             )
         },
     },
+    {
+        id: "actions",
+        enableHiding: false,
+        cell: ({ row }) => {
+            const user = row.original;
+
+            return (
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" className="h-8 w-8 p-0">
+                            <span className="sr-only">Open menu</span>
+                            <MoreHorizontal/>
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                        <DropdownMenuItem>
+                            <Link href={"/users/edit/" + user.username}>
+                                Edit Information
+                            </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem>
+                            Delete user
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            )
+        }
+    }
 ]
