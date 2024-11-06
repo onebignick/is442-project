@@ -7,6 +7,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "../ui/form"
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
+import { useToast } from "@/hooks/use-toast";
 
 const formSchema = z.object({
     name: z.string(),
@@ -15,12 +16,35 @@ const formSchema = z.object({
 
 export function CreateTemplateForm() {
 
+    const { toast } = useToast();
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
     });
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values);
+        const res = await fetch("http://localhost:8080/api/template", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                name: values.name,
+                content: values.content,
+            })
+        })
+
+        if (res.ok) {
+            toast({
+                title: "Success",
+                description: "Template information was successfully updated"
+            })
+        } else {
+            toast({
+                title: "Uh oh! Something went wrong",
+                description: "There was a problem with your request. "
+            })
+        }
     }
 
     return(
