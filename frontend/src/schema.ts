@@ -37,8 +37,8 @@ export const price = createTable("price", {
 
 export const orderLineItem = createTable("order_line_item", {
 	id: varchar("id", {length: 255}).primaryKey(),
-	orderId: varchar("order_id", {length: 32}).references(() => order.id),
-	priceId: varchar("price_id", {length: 32}).references(() => price.id),
+	orderId: varchar("order_id", {length: 255}).references(() => order.id),
+	priceId: varchar("price_id", {length: 255}).references(() => price.id),
 	quantity: integer("quantity")
 })
 
