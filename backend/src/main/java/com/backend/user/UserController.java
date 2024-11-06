@@ -23,4 +23,14 @@ public class UserController {
    public User createUser(@RequestBody User user) throws Exception {
       return userService.createOneUser(user);
    }
+
+   @PostMapping("/api/user/delete")
+   public User deleteUser(@RequestBody User user) throws Exception {
+      return userService.deleteOneUser(user);
+   }
+
+   @PostMapping("/api/user/update")
+   public User updateUser(@RequestBody User user) throws Exception {
+      return userService.updateOneUser(user);
+   }
 }

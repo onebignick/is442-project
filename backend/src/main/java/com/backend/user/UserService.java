@@ -27,4 +27,24 @@ public class UserService {
         }
         throw new UserAlreadyExistsException();
     }
+
+    public User deleteOneUser(User user) throws UserNotFoundException {
+        try {
+            this.userRepository.deleteById(user.getUsername());
+        } catch (UserNotFoundException e) {
+            //do nothing
+        }
+        throw new UserNotFoundException();
+    }
+
+    public User updateOneUser(User user) throws UserNotFoundException {
+        try {
+            User updatedUser = this.findById(user.getUsername());
+            updatedUser = this.userRepository.save(user);
+            return updatedUser;
+        } catch (UserNotFoundException e) {
+            //do nothing
+        }
+        throw new UserNotFoundException();
+    }
 }
