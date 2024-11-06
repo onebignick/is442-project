@@ -14,14 +14,14 @@ export class UserDTO {
     fromUser(user: User) {
         this.username = user.username;
         this.password = user.password;
-        this.roles = JSON.stringify(user.roles);
+        this.roles = user.roles.join(",");
     } 
 
     toUser() {
         const user = {
             username: this.username,
             password: this.password,
-            roles: JSON.parse(this.roles),
+            roles: this.roles.split(","),
         } as User
         return user;
     }

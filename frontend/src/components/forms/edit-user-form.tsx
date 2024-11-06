@@ -60,7 +60,7 @@ export function EditUserForm({ targetUser } : UpdateUserFormProps) {
             body: JSON.stringify({
                 username: values.username,
                 password: values.password,
-                roles: JSON.stringify(values.roles)
+                roles: values.roles.join(","),
             }),
         })
         
