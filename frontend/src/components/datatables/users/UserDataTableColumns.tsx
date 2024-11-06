@@ -71,7 +71,22 @@ export const UserDataTableColumns: ColumnDef<User>[] = [
                                 Edit Information
                             </Link>
                         </DropdownMenuItem>
-                        <DropdownMenuItem>
+                        <DropdownMenuItem onClick={async () => {
+                            const res = await fetch("http://localhost:8080/api/user", {
+                                method: "DELETE",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                },
+                                body: JSON.stringify({
+                                    username: user.username,
+                                    password: user.password,
+                                    roles: user.roles.join(",")
+                                })
+                            })
+                            if (res.ok) {
+                                console.log("success");
+                            }
+                        }}>
                             Delete user
                         </DropdownMenuItem>
                     </DropdownMenuContent>
