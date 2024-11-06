@@ -10,6 +10,7 @@ import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 import { User } from "@/types/User";
 import { useToast } from "@/hooks/use-toast";
+import { BreadcrumbComponent } from '@/components/breadcrumb-component';
 
 const formSchema = z.object({
     username: z.string(),
@@ -33,6 +34,11 @@ const roles = [
         label: "Salesperson"
     }
 ] as const;
+
+const breadcrumbItems = [
+    { label: "Home", href: "/" },
+    { label: "Users", href: "/users" },
+]
 
 interface UpdateUserFormProps {
     targetUser: User;
@@ -79,6 +85,10 @@ export function EditUserForm({ targetUser } : UpdateUserFormProps) {
 
     return(
         <Card>
+            <div className="pt-5 pl-5">
+                <BreadcrumbComponent items={breadcrumbItems} />
+            </div>
+
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 shadow-lg">
                     <CardHeader>
