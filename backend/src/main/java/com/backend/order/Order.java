@@ -25,14 +25,16 @@ public class Order {
     private String id = UUID.randomUUID().toString();
     // Many orders can be associated with one customer
     @ManyToOne
-    @JoinColumn(name = "custID", referencedColumnName = "id", nullable = false) // Foreign key column
+    @JoinColumn(name = "customer_id", referencedColumnName = "id", nullable = false) // Corrected column name
     private Customer customer;
 
     private String salesDate;
-    private String salesType;
+    private String saleType;
     private String shippingMethod;
     private String address;
 
 
+
 }
+
 

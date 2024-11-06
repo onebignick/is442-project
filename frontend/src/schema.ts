@@ -21,9 +21,9 @@ export const product = createTable("product", {
 
 export const order = createTable("order", {
 	id: varchar("id", {length: 255}).primaryKey(),
-	customerId: varchar("customer_id", {length: 32}).references(() => customer.id),
+	customerId: varchar("customer_id", {length: 50}).references(() => customer.id),
 	salesDate: varchar("sales_date", {length: 50}),
-	saleType: varchar("sale_type", {length: 50}),
+	salesType: varchar("sales_type", {length: 50}),
 	shippingMethod: varchar("shipping_method", {length: 50}),
 	address: varchar("address", {length: 50})
 })
