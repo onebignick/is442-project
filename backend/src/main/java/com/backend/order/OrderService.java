@@ -108,13 +108,20 @@ public class OrderService {
                         return Double.parseDouble(price.getPrice()) * item.getQuantity();
                     })
                     .sum();
-
+    
             Map<String, Object> orderWithTotalPrice = new HashMap<>();
             orderWithTotalPrice.put("order", order);
             orderWithTotalPrice.put("total_price", totalPrice);
-
+    
             ordersWithTotalPrices.add(orderWithTotalPrice);
         }
+    
+        // Sort by total_price in descending order
+        ordersWithTotalPrices.sort((o1, o2) -> {
+            double totalPrice1 = (double) o1.get("total_price");
+            double totalPrice2 = (double) o2.get("total_price");
+            return Double.compare(totalPrice2, totalPrice1); // Sort in descending order
+        });
     
         return ordersWithTotalPrices;
     }
