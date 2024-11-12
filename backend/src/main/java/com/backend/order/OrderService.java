@@ -7,24 +7,28 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.backend.customer.Customer;
+import com.backend.customer.CustomerRepository;
 import com.backend.orderLineItem.OrderLineItem;
 import com.backend.orderLineItem.OrderLineItemRepository;
 import com.backend.price.Price;
 import com.backend.price.PriceRepository;
+
 
 @Service
 public class OrderService {
     private OrderRepository orderRepository;
     private OrderLineItemRepository orderLineItemRepository;
     private PriceRepository priceRepository;
+    private CustomerRepository customerRepository; 
 
 
-    public OrderService(OrderRepository orderRepository, OrderLineItemRepository orderLineItemRepository, PriceRepository priceRepository) {
+    public OrderService(OrderRepository orderRepository, OrderLineItemRepository orderLineItemRepository, PriceRepository priceRepository, CustomerRepository customerRepository) {
         this.orderRepository = orderRepository;
         this.orderLineItemRepository = orderLineItemRepository;
         this.priceRepository = priceRepository;
+        this.customerRepository = customerRepository;
     }
-
     public Order findById(String id) throws OrderNotFoundException {
         Optional<Order> oOrder = orderRepository.findById(id);
         if (oOrder.isEmpty()) throw new OrderNotFoundException();
@@ -175,6 +179,42 @@ public class OrderService {
     
         return ordersWithTotalPrices;
     }    
+
+
+    // New Method to fetch orders with customer names (added back in)
+    public List<Map<String, Object>> getAllCustomerOrders() {
+        List<Order> orders = (List<Order>) orderRepository.findAll();
+        List<Map<String, Object>> ordersWithCustomerName = new ArrayList<>();
+
+        for (Order order : orders) {
+            try {
+                // Check if the order has a valid customer_id
+                if (order.getCustomer() != null) {
+                    // Fetch customer by ID
+                    Customer customer = customerRepository.findById(order.getCustomer().getId())
+                            .orElseThrow(() -> new RuntimeException("Customer not found for id: " + order.getCustomer().getId()));
+
+                    Map<String, Object> orderWithCustomerName = new HashMap<>();
+                    orderWithCustomerName.put("order", order);
+                    orderWithCustomerName.put("customer_name", customer.getName());
+
+                    ordersWithCustomerName.add(orderWithCustomerName);
+                } else {
+                    // Handle case where order does not have an associated customer
+                    Map<String, Object> error = new HashMap<>();
+                    error.put("error", "Order does not have a linked customer for order ID: " + order.getId());
+                    ordersWithCustomerName.add(error);
+                }
+            } catch (Exception e) {
+                // Log and handle any error related to fetching customer
+                Map<String, Object> error = new HashMap<>();
+                error.put("error", "Error finding customer for order ID: " + order.getId() + " - " + e.getMessage());
+                ordersWithCustomerName.add(error);
+            }
+        }
+
+        return ordersWithCustomerName;
+    }
     
 }
 
