@@ -97,89 +97,63 @@ public class OrderService {
 
     }
 
+    private double calculateTotalPrice(Order order) {
+        List<OrderLineItem> lineItems = orderLineItemRepository.findByOrderId(order.getId());
+        
+        return lineItems.stream()
+            .mapToDouble(item -> {
+                Price price = priceRepository.findById(item.getPrice().getId())
+                        .orElseThrow(() -> new RuntimeException("Price not found for id: " + item.getPrice().getId()));
+                return Double.parseDouble(price.getPrice()) * item.getQuantity();
+            })
+            .sum();
+    }
+
+    private String getCustomerName(Order order) {
+        if (order.getCustomer() != null) {
+            return customerRepository.findById(order.getCustomer().getId())
+                    .map(Customer::getName)
+                    .orElse("Unknown Customer");
+        }
+        return "No Customer Linked";
+    }
+
+    private Map<String, Object> buildOrderDetails(Order order) {
+        Map<String, Object> details = new HashMap<>();
+        details.put("order", order);
+        details.put("total_price", calculateTotalPrice(order));
+        details.put("customer_name", getCustomerName(order));
+        return details;
+    }
+
     public List<Map<String, Object>> getAllOrdersWithTotalPrice() {
         List<Order> orders = (List<Order>) orderRepository.findAll();
-        List<Map<String, Object>> ordersWithTotalPrices = new ArrayList<>();
-            
-        for (Order order : orders) {
-            List<OrderLineItem> lineItems = orderLineItemRepository.findByOrderId(order.getId());
-            
-            // Calculate the total price for each order
-            double totalPrice = lineItems.stream()
-                    .mapToDouble(item -> {
-                        Price price = priceRepository.findById(item.getPrice().getId())
-                                .orElseThrow(() -> new RuntimeException("Price not found for id: " + item.getPrice().getId()));
-                        return Double.parseDouble(price.getPrice()) * item.getQuantity();
-                    })
-                    .sum();
-    
-            Map<String, Object> orderWithTotalPrice = new HashMap<>();
-            orderWithTotalPrice.put("order", order);
-            orderWithTotalPrice.put("total_price", totalPrice);
-    
-            ordersWithTotalPrices.add(orderWithTotalPrice);
-        }
+        List<Map<String, Object>> result = new ArrayList<>();
+        orders.forEach(order -> result.add(buildOrderDetails(order)));
     
         // Sort by total_price in descending order
-        ordersWithTotalPrices.sort((o1, o2) -> {
+        result.sort((o1, o2) -> {
             double totalPrice1 = (double) o1.get("total_price");
             double totalPrice2 = (double) o2.get("total_price");
             return Double.compare(totalPrice2, totalPrice1); // Sort in descending order
         });
     
-        return ordersWithTotalPrices;
+        return result;
     }
 
     public List<Map<String, Object>> getOrdersBySalesDate(String salesDate) {
         List<Order> orders = orderRepository.findBySalesDate(salesDate); // find order by salesdate
-        List<Map<String, Object>> ordersWithTotalPrices = new ArrayList<>();
-    
-        for (Order order : orders) {
-            List<OrderLineItem> lineItems = orderLineItemRepository.findByOrderId(order.getId());
-    
-            double totalPrice = lineItems.stream()
-                    .mapToDouble(item -> {
-                        Price price = priceRepository.findById(item.getPrice().getId())
-                                .orElseThrow(() -> new RuntimeException("Price not found for id: " + item.getPrice().getId()));
-                        return Double.parseDouble(price.getPrice()) * item.getQuantity();
-                    })
-                    .sum();
-    
-            Map<String, Object> orderWithTotalPrice = new HashMap<>();
-            orderWithTotalPrice.put("order", order);
-            orderWithTotalPrice.put("total_price", totalPrice);
-    
-            ordersWithTotalPrices.add(orderWithTotalPrice);
-        }
-    
-        return ordersWithTotalPrices;
+        List<Map<String, Object>> result = new ArrayList<>();
+        orders.forEach(order -> result.add(buildOrderDetails(order)));
+        return result;
     }
 
     public List<Map<String, Object>> getOrdersByDateRange(String startDate, String endDate) {
         List<Order> orders = orderRepository.findBySalesDateBetween(startDate, endDate); 
-        List<Map<String, Object>> ordersWithTotalPrices = new ArrayList<>();
-        
-        for (Order order : orders) {
-            List<OrderLineItem> lineItems = orderLineItemRepository.findByOrderId(order.getId());
-            
-            double totalPrice = lineItems.stream()
-                    .mapToDouble(item -> {
-                        Price price = priceRepository.findById(item.getPrice().getId())
-                                .orElseThrow(() -> new RuntimeException("Price not found for id: " + item.getPrice().getId()));
-                        return Double.parseDouble(price.getPrice()) * item.getQuantity();
-                    })
-                    .sum();
-    
-            Map<String, Object> orderWithTotalPrice = new HashMap<>();
-            orderWithTotalPrice.put("order", order);
-            orderWithTotalPrice.put("total_price", totalPrice);
-    
-            ordersWithTotalPrices.add(orderWithTotalPrice);
-        }
-    
-        return ordersWithTotalPrices;
+        List<Map<String, Object>> result = new ArrayList<>();
+        orders.forEach(order -> result.add(buildOrderDetails(order)));
+        return result;
     }    
-
 
     // New Method to fetch orders with customer names (added back in)
     public List<Map<String, Object>> getAllCustomerOrders() {
