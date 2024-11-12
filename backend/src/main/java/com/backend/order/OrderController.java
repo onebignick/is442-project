@@ -1,7 +1,15 @@
 package com.backend.order;
 
-import org.springframework.web.bind.annotation.*;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class OrderController {
@@ -39,6 +47,11 @@ public class OrderController {
     @DeleteMapping("/api/order")
     public String deleteOrder(@RequestBody Order order) throws Exception {
        return orderService.deleteOneOrder(order);
+    }
+
+    @GetMapping("/api/order/salestype/{salesType}")
+    public Order getSalesType(@PathVariable String salesType) throws Exception {
+        return orderService.findBySalesType(salesType);
     }
  
 

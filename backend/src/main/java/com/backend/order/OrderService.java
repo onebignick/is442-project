@@ -1,14 +1,16 @@
 package com.backend.order;
-import com.backend.price.Price;
-import com.backend.price.PriceRepository;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
-import com.backend.order.OrderRepository;
+
 import com.backend.orderLineItem.OrderLineItem;
 import com.backend.orderLineItem.OrderLineItemRepository;
-import com.backend.user.UserNotFoundException;
-
-import java.util.*;
+import com.backend.price.Price;
+import com.backend.price.PriceRepository;
 
 @Service
 public class OrderService {
@@ -27,6 +29,13 @@ public class OrderService {
         Optional<Order> oOrder = orderRepository.findById(id);
         if (oOrder.isEmpty()) throw new OrderNotFoundException();
 
+        return oOrder.get();
+    }
+
+    public Order findBySalesType(String salesType) throws OrderNotFoundException {
+        Optional<Order> oOrder = orderRepository.findBySalesType(salesType);
+        if (oOrder.isEmpty()) throw new OrderNotFoundException();
+    
         return oOrder.get();
     }
 
