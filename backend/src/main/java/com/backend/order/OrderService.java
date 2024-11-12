@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -126,6 +127,9 @@ public class OrderService {
         details.put("order", order);
         details.put("total_price", calculateTotalPrice(order));
         details.put("customer_name", getCustomerName(order));
+        if (order.getCustomer() != null) {
+            details.put("customer_id", order.getCustomer().getId());  // Add this line
+        }
         return details;
     }
 
@@ -194,32 +198,28 @@ public class OrderService {
     }
 
     public List<Customer> getDormantCustomers() {
-        // Get the current date and the date from 6 months ago
+        // Define the date range: six months ago to today
         LocalDate currentDate = LocalDate.now();
         LocalDate sixMonthsAgo = currentDate.minusMonths(6);
-    
-        // Convert dates to the required string format ("yyyy-MM-dd")
-        String startDate = sixMonthsAgo.format(DateTimeFormatter.ISO_DATE); // "2024-05-11"
-        String endDate = currentDate.format(DateTimeFormatter.ISO_DATE);    // "2024-11-11"
         
-        // Fetch the orders placed within the last 6 months
-        List<Map<String, Object>> ordersInLast6Months = getOrdersByDateRange(startDate, endDate); // Direct call here
+        // Format the dates as strings in "yyyy-MM-dd" format
+        String startDate = sixMonthsAgo.format(DateTimeFormatter.ISO_DATE);
+        String endDate = currentDate.format(DateTimeFormatter.ISO_DATE);
         
-        // Extract the customer IDs from these orders
-        List<String> activeCustomerIds = ordersInLast6Months.stream()
-                .map(order -> (String) order.get("customerId"))  // Assuming "customerId" is a key in the Map
+        // Get all orders within the last 6 months
+        List<Map<String, Object>> recentOrders = getOrdersByDateRange(startDate, endDate);
+        
+        // Extract unique customer IDs from recent orders
+        List<String> activeCustomerIds = recentOrders.stream()
+                .map(order -> (String) order.get("customer_id"))
+                .filter(Objects::nonNull)
                 .distinct()
                 .collect(Collectors.toList());
         
-        // Get all customers
-        List<Customer> allCustomers = (List<Customer>) customerRepository.findAll();
+        // Retrieve customers who have made purchases within the last 6 months
+        List<Customer> activeCustomers = (List<Customer>) customerRepository.findAllById(activeCustomerIds);
         
-        // Filter customers who have not placed orders in the last 6 months
-        List<Customer> dormantCustomers = allCustomers.stream()
-                .filter(customer -> !activeCustomerIds.contains(customer.getId()))
-                .collect(Collectors.toList());
-        
-        return dormantCustomers;
+        return activeCustomers;
     }
     
 }
