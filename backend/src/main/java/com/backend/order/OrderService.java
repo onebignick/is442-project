@@ -32,19 +32,19 @@ public class OrderService {
         return oOrder.get();
     }
 
-    public Order findBySalesType(String salesType) throws OrderNotFoundException {
-        Optional<Order> oOrder = orderRepository.findBySalesType(salesType);
+    public List<Order> findBySalesType(String salesType) throws OrderNotFoundException {
+        List<Order> oOrder = orderRepository.findBySalesType(salesType);
         if (oOrder.isEmpty()) throw new OrderNotFoundException();
     
-        return oOrder.get();
+        return oOrder;
     }
 
 
-    public Order findByCustId(String customer_id) throws OrderNotFoundException {
-        Optional<Order> oOrder = orderRepository.findByCustomerId(customer_id);
-        if (oOrder.isEmpty()) throw new OrderNotFoundException();
+    public List<Order> findByCustId(String customer_id) throws OrderNotFoundException {
+        List<Order> order = orderRepository.findAllByCustomerId(customer_id);
+        if (order.isEmpty()) throw new OrderNotFoundException();
 
-        return oOrder.get();
+        return order;
     }
 
 

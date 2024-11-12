@@ -26,7 +26,7 @@ public class OrderController {
     }
 
     @GetMapping("/api/order/customerid/{customer_id}")
-    public Order getOrderCustId(@PathVariable String customer_id) throws Exception {
+    public List<Order> getOrderCustId(@PathVariable String customer_id) throws Exception {
         return orderService.findByCustId(customer_id);
     }
 
@@ -56,7 +56,7 @@ public class OrderController {
     }
 
     @GetMapping("/api/order/salestype/{salesType}")
-    public Order getSalesType(@PathVariable String salesType) throws Exception {
+    public List<Order> getSalesType(@PathVariable String salesType) throws Exception {
         return orderService.findBySalesType(salesType);
     }
 
