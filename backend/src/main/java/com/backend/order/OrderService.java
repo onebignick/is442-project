@@ -39,6 +39,15 @@ public class OrderService {
         return oOrder.get();
     }
 
+
+    public Order findByCustId(String customer_id) throws OrderNotFoundException {
+        Optional<Order> oOrder = orderRepository.findByCustomerId(customer_id);
+        if (oOrder.isEmpty()) throw new OrderNotFoundException();
+
+        return oOrder.get();
+    }
+
+
     public Iterable<Order> getAllOrders() {
         return orderRepository.findAll();
     }

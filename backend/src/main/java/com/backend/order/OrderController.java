@@ -24,6 +24,11 @@ public class OrderController {
         return orderService.findById(id);
     }
 
+    @GetMapping("/api/order/customerid/{customer_id}")
+    public Order getOrderCustId(@PathVariable String customer_id) throws Exception {
+        return orderService.findByCustId(customer_id);
+    }
+
     @GetMapping("/api/orders")
     public Iterable<Order> getAllOrders() {
         return orderService.getAllOrders();
