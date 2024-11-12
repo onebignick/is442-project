@@ -1,9 +1,12 @@
 package com.backend.order;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -188,6 +191,35 @@ public class OrderService {
         }
 
         return ordersWithCustomerName;
+    }
+
+    public List<Customer> getDormantCustomers() {
+        // Get the current date and the date from 6 months ago
+        LocalDate currentDate = LocalDate.now();
+        LocalDate sixMonthsAgo = currentDate.minusMonths(6);
+    
+        // Convert dates to the required string format ("yyyy-MM-dd")
+        String startDate = sixMonthsAgo.format(DateTimeFormatter.ISO_DATE); // "2024-05-11"
+        String endDate = currentDate.format(DateTimeFormatter.ISO_DATE);    // "2024-11-11"
+        
+        // Fetch the orders placed within the last 6 months
+        List<Map<String, Object>> ordersInLast6Months = getOrdersByDateRange(startDate, endDate); // Direct call here
+        
+        // Extract the customer IDs from these orders
+        List<String> activeCustomerIds = ordersInLast6Months.stream()
+                .map(order -> (String) order.get("customerId"))  // Assuming "customerId" is a key in the Map
+                .distinct()
+                .collect(Collectors.toList());
+        
+        // Get all customers
+        List<Customer> allCustomers = (List<Customer>) customerRepository.findAll();
+        
+        // Filter customers who have not placed orders in the last 6 months
+        List<Customer> dormantCustomers = allCustomers.stream()
+                .filter(customer -> !activeCustomerIds.contains(customer.getId()))
+                .collect(Collectors.toList());
+        
+        return dormantCustomers;
     }
     
 }

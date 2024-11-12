@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.backend.customer.Customer;
+
 @RestController
 public class OrderController {
     private final OrderService orderService;
-
+    
     public OrderController(OrderService orderService) {
         this.orderService = orderService;
     }
@@ -77,6 +79,11 @@ public class OrderController {
         return orderService.getAllCustomerOrders();
     }
 
+    // New API endpoint for Dormant Customers
+    @GetMapping("/api/customers/dormant")
+    public List<Customer> getDormantCustomers() {
+        return orderService.getDormantCustomers();
+    }
 
  
 }
