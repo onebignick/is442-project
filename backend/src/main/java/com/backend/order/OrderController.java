@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 public class OrderController {
@@ -57,6 +58,17 @@ public class OrderController {
     @GetMapping("/api/order/salestype/{salesType}")
     public Order getSalesType(@PathVariable String salesType) throws Exception {
         return orderService.findBySalesType(salesType);
+    }
+
+    @GetMapping("/api/orders/date")
+    public List<Map<String, Object>> getOrdersBySalesDate(@RequestParam String salesDate) {
+        System.out.println("Received salesDate: " + salesDate);
+        return orderService.getOrdersBySalesDate(salesDate);
+    }
+
+    @GetMapping("/api/orders/daterange")
+    public List<Map<String, Object>> getOrdersByDateRange(@RequestParam String startDate, String endDate) {
+        return orderService.getOrdersByDateRange(startDate, endDate);
     }
  
 

@@ -2,10 +2,14 @@ package com.backend.order;
 
 import java.util.Optional;
 
-import org.springframework.data.repository.CrudRepository;
+// import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.*;
 
-public interface OrderRepository extends CrudRepository<Order, String> {
+public interface OrderRepository extends JpaRepository<Order, String> {
     // Additional query methods can be defined here if needed
     Optional<Order> findBySalesType(String salesType);
     Optional<Order> findByCustomerId(String customer_id);
+    List<Order> findBySalesDate(String salesDate);
+    List<Order> findBySalesDateBetween(String startDate, String endDate);
 }

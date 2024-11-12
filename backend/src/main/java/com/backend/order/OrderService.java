@@ -125,6 +125,56 @@ public class OrderService {
     
         return ordersWithTotalPrices;
     }
+
+    public List<Map<String, Object>> getOrdersBySalesDate(String salesDate) {
+        List<Order> orders = orderRepository.findBySalesDate(salesDate); // find order by salesdate
+        List<Map<String, Object>> ordersWithTotalPrices = new ArrayList<>();
+    
+        for (Order order : orders) {
+            List<OrderLineItem> lineItems = orderLineItemRepository.findByOrderId(order.getId());
+    
+            double totalPrice = lineItems.stream()
+                    .mapToDouble(item -> {
+                        Price price = priceRepository.findById(item.getPrice().getId())
+                                .orElseThrow(() -> new RuntimeException("Price not found for id: " + item.getPrice().getId()));
+                        return Double.parseDouble(price.getPrice()) * item.getQuantity();
+                    })
+                    .sum();
+    
+            Map<String, Object> orderWithTotalPrice = new HashMap<>();
+            orderWithTotalPrice.put("order", order);
+            orderWithTotalPrice.put("total_price", totalPrice);
+    
+            ordersWithTotalPrices.add(orderWithTotalPrice);
+        }
+    
+        return ordersWithTotalPrices;
+    }
+
+    public List<Map<String, Object>> getOrdersByDateRange(String startDate, String endDate) {
+        List<Order> orders = orderRepository.findBySalesDateBetween(startDate, endDate); 
+        List<Map<String, Object>> ordersWithTotalPrices = new ArrayList<>();
+        
+        for (Order order : orders) {
+            List<OrderLineItem> lineItems = orderLineItemRepository.findByOrderId(order.getId());
+            
+            double totalPrice = lineItems.stream()
+                    .mapToDouble(item -> {
+                        Price price = priceRepository.findById(item.getPrice().getId())
+                                .orElseThrow(() -> new RuntimeException("Price not found for id: " + item.getPrice().getId()));
+                        return Double.parseDouble(price.getPrice()) * item.getQuantity();
+                    })
+                    .sum();
+    
+            Map<String, Object> orderWithTotalPrice = new HashMap<>();
+            orderWithTotalPrice.put("order", order);
+            orderWithTotalPrice.put("total_price", totalPrice);
+    
+            ordersWithTotalPrices.add(orderWithTotalPrice);
+        }
+    
+        return ordersWithTotalPrices;
+    }    
     
 }
 
