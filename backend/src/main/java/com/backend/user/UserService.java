@@ -60,4 +60,15 @@ public class UserService {
         throw new UserNotFoundException();
     }
 
+    public boolean authenticateUser(String email, String password) {
+        Optional<User> optionalUser = userRepository.findById(email);
+ 
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            return password.equals(user.getPassword());
+        }
+ 
+        return false;
+    }
+
 }
