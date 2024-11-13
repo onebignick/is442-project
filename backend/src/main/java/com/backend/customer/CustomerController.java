@@ -42,4 +42,9 @@ public class CustomerController {
         return customerService.updateOneCustomer(customer);
     }
 
+    @GetMapping("/api/customer/frequent")
+    public Iterable<Customer> getFrequentCustomers() {
+        return customerService.findActiveCustomersLastMonth();
+    }
+
 }
