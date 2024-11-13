@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.io.IOException;
 
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,7 @@ import com.backend.orderLineItem.OrderLineItem;
 import com.backend.orderLineItem.OrderLineItemRepository;
 import com.backend.price.Price;
 import com.backend.price.PriceRepository;
+import com.backend.util.CsvUtils;
 
 
 @Service
@@ -113,23 +115,17 @@ public class OrderService {
             .sum();
     }
 
-    private String getCustomerName(Order order) {
-        if (order.getCustomer() != null) {
-            return customerRepository.findById(order.getCustomer().getId())
-                    .map(Customer::getName)
-                    .orElse("Unknown Customer");
-        }
-        return "No Customer Linked";
-    }
-
     private Map<String, Object> buildOrderDetails(Order order) {
         Map<String, Object> details = new HashMap<>();
-        details.put("order", order);
         details.put("total_price", calculateTotalPrice(order));
-        details.put("customer_name", getCustomerName(order));
-        if (order.getCustomer() != null) {
-            details.put("customer_id", order.getCustomer().getId());  // Add this line
-        }
+        details.put("customer_id", order.getCustomer().getId());
+        details.put("customer_name", order.getCustomer().getName());
+        details.put("customer_email", order.getCustomer().getEmail());
+        details.put("order_id", order.getId());
+        details.put("sales_date", order.getSalesDate());
+        details.put("sales_type", order.getSalesType());
+        details.put("shipping_method", order.getShippingMethod());
+        details.put("address", order.getAddress());
         return details;
     }
 
@@ -221,8 +217,32 @@ public class OrderService {
         
         return activeCustomers;
     }
+
+    public String exportOrdersByFilters(String salesDate, String startDate, String endDate, String customerId) {
+        List<Map<String, Object>> filteredOrders;
+
+        if (salesDate != null) {
+            // Filter by sales date
+            filteredOrders = getOrdersBySalesDate(salesDate);
+        } else if (startDate != null && endDate != null) {
+            // Filter by date range
+            filteredOrders = getOrdersByDateRange(startDate, endDate);
+        } else if (customerId != null) {
+            // Filter by customer ID
+            List<Order> orders = findByCustId(customerId);
+            filteredOrders = orders.stream().map(this::buildOrderDetails).collect(Collectors.toList());
+        } else {
+            // Get all orders
+            filteredOrders = getAllOrdersWithTotalPrice();
+        }
+
+        // Export to CSV
+        String fileName = "filtered_orders.csv";
+        try {
+            return CsvUtils.writeToCsv(filteredOrders, fileName);
+        } catch (IOException e) {
+            throw new RuntimeException("Error exporting orders to CSV: " + e.getMessage(), e);
+        }
+    }
     
 }
-
-
-
