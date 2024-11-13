@@ -29,7 +29,7 @@ export default function SignInForm() {
 
     return (
         <form onSubmit={handleSubmit}>
-            <Card className="border-0">
+            <Card className="border-0 shadow-none">
                 <CardHeader>
                     <CardTitle className="text-5xl">
                         <div> Hey there! 👋 </div>
@@ -40,7 +40,7 @@ export default function SignInForm() {
                     </CardDescription>
                 </CardHeader>
 
-                <CardContent className="flex flex-col justify-center gap-4">
+                <CardContent className="flex flex-col justify-center gap-4 border-0 shadow-none">
                     <div>
                         <Input
                             type="email"
@@ -61,9 +61,10 @@ export default function SignInForm() {
 
                     {error && <p className="text-red-500">{error}</p>}
 
-                    <Button type="submit" className="bg-background text-black hover:bg-background/70">
+                    <Button type="submit" className="bg-black text-white hover:bg-background/70">
                         Continue
                     </Button>
+
                 </CardContent>
 
             </Card>
