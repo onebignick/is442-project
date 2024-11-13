@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 
 import com.backend.user.UserNotFoundException;
 
+import java.lang.foreign.Linker.Option;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,6 +23,11 @@ public class CustomerService {
             throw new CustomerNotFoundException();
 
         return oCustomer.get();
+    }
+
+    public List<Customer> findOneTimeCustomers() {
+        List<Customer> oneTimeCustomers = customerRepository.findOneTimeCustomers();
+        return oneTimeCustomers;
     }
 
     public Iterable<Customer> getAllCustomers() {

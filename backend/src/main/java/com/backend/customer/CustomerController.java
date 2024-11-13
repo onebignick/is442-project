@@ -1,6 +1,7 @@
 package com.backend.customer;
 
-import org.apache.catalina.util.CustomObjectInputStream;
+import java.util.List;
+
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,6 +15,11 @@ public class CustomerController {
     @GetMapping("/api/customer/{id}")
     public Customer getCustomerById(@PathVariable String id) throws Exception {
         return customerService.findById(id);
+    }
+
+    @GetMapping("/api/customer/onetime")
+    public List<Customer> findOneTimeCustomers() {
+        return customerService.findOneTimeCustomers();
     }
 
     @GetMapping("/api/customer")
