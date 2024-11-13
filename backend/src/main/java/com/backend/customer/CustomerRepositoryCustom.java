@@ -4,6 +4,7 @@ import java.util.List;
 
 public interface CustomerRepositoryCustom {
     List<Customer> findOneTimeCustomers();
-    List<Customer> findCustomersWithMoreThan10PurchasesLastMonth();
+    List<Customer> findFrequentCustomers();
     List<Customer> findOccasionalCustomers();
+    List<Object[]> findCustomerLifetimeSpending();
 }

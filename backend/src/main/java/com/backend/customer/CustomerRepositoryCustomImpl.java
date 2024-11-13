@@ -25,7 +25,7 @@ public class CustomerRepositoryCustomImpl implements CustomerRepositoryCustom {
     }
 
     @Override
-    public List<Customer> findCustomersWithMoreThan10PurchasesLastMonth() {
+    public List<Customer> findFrequentCustomers() {
         LocalDate now = LocalDate.now();
         LocalDate firstDayOfLastMonth = now.minusMonths(1).withDayOfMonth(1);
         LocalDate lastDayOfLastMonth = firstDayOfLastMonth.withDayOfMonth(firstDayOfLastMonth.lengthOfMonth());
@@ -43,7 +43,7 @@ public class CustomerRepositoryCustomImpl implements CustomerRepositoryCustom {
         query.setParameter("startDate", startDate);
         query.setParameter("endDate", endDate);
 
-        return (List<Customer>) query.getResultList();
+        return query.getResultList();
     }
 
     @Override
@@ -60,5 +60,19 @@ public class CustomerRepositoryCustomImpl implements CustomerRepositoryCustom {
         Query query = entityManager.createNativeQuery(sql, Customer.class);
         query.setParameter("threeMonths", java.sql.Date.valueOf(threeMonths));
         return query.getResultList(); 
+    }
+
+    @Override
+    public List<Object[]> findCustomerLifetimeSpending() {
+        String sql = "SELECT o.customer_id, c.name, c.email, SUM(oi.quantity * (p.price::DOUBLE PRECISION)) AS lifetime_spending " +
+                    "FROM is442_order o " +
+                    "JOIN is442_order_line_item oi ON o.id = oi.order_id " +
+                    "JOIN is442_price p ON oi.price_id = p.id " +
+                    "JOIN is442_customer c ON o.customer_id = c.id " +
+                    "GROUP BY o.customer_id, c.name, c.email";
+
+        Query query = entityManager.createNativeQuery(sql);
+
+        return query.getResultList(); // [customer_id, name, email, lifetime_spending]
     }
 }

@@ -43,12 +43,27 @@ public class CustomerController {
     }
 
     @GetMapping("/api/customer/frequent")
-    public Iterable<Customer> getFrequentCustomers() {
-        return customerService.findActiveCustomersLastMonth();
+    public Iterable<Customer> findFrequentCustomers() {
+        return customerService.findFrequentCustomers();
     }
 
     @GetMapping("/api/customer/occasional")
     public List<Customer> findOccasionalCustomers() {
         return customerService.findOccasionalCustomers();
+    }
+
+    @GetMapping("/api/customer/highvalue")
+    public List<Object[]> getHighValueCustomers() {
+        return customerService.getHighValueCustomers();
+    }
+
+    @GetMapping("/api/customer/midtier")
+    public List<Object[]> getMidTierCustomers() {
+        return customerService.getMidTierCustomers();
+    }
+
+    @GetMapping("/api/customer/lowspend")
+    public List<Object[]> getLowSpendCustomers() {
+        return customerService.getLowSpendCustomers();
     }
 }
