@@ -6,6 +6,8 @@ import jakarta.persistence.Query;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+
+import java.time.LocalDate;
 import java.util.List;
 
 public class CustomerRepositoryCustomImpl implements CustomerRepositoryCustom {
@@ -42,5 +44,21 @@ public class CustomerRepositoryCustomImpl implements CustomerRepositoryCustom {
         query.setParameter("endDate", endDate);
 
         return (List<Customer>) query.getResultList();
+    }
+
+    @Override
+    public List<Customer> findOccasionalCustomers() {
+        LocalDate threeMonths = LocalDate.now().minusMonths(3);
+    
+        String sql = "SELECT c.* FROM is442_customer c " +
+                     "JOIN (SELECT customer_id FROM is442_order " +
+                     "WHERE sales_date >= :threeMonths " +
+                     "GROUP BY customer_id " +
+                     "HAVING COUNT(*) BETWEEN 3 AND 5) o " +
+                     "ON c.id = o.customer_id";
+    
+        Query query = entityManager.createNativeQuery(sql, Customer.class);
+        query.setParameter("threeMonths", java.sql.Date.valueOf(threeMonths));
+        return query.getResultList(); 
     }
 }

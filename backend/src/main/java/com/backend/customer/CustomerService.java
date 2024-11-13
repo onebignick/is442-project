@@ -31,6 +31,11 @@ public class CustomerService {
         return oneTimeCustomers;
     }
 
+    public List<Customer> findOccasionalCustomers() {
+        List<Customer> occasionalCustomers = customerRepository.findOccasionalCustomers();
+        return occasionalCustomers;
+    }
+
     public Iterable<Customer> getAllCustomers() {
         return customerRepository.findAll();
     }

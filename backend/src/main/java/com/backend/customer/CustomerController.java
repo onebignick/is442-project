@@ -47,4 +47,8 @@ public class CustomerController {
         return customerService.findActiveCustomersLastMonth();
     }
 
+    @GetMapping("/api/customer/occasional")
+    public List<Customer> findOccasionalCustomers() {
+        return customerService.findOccasionalCustomers();
+    }
 }
