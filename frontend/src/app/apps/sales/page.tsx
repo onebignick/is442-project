@@ -2,20 +2,17 @@
 
 import Image from "next/image"
 
-import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { Overview } from "@/components/sales/overview"
 
 import { MainNav } from "@/components/sales/main-nav"
-import { CalendarDateRangePicker } from "@/components/sales/date-range-picker"
 import { Search } from "@/components/sales/search"
 import { UserNav } from "@/components/sales/user-nav"
 
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { set } from "date-fns"
 
 export default function DashboardPage() {
   const [totalNumSales, setTotalNumSales] = useState(0);
