@@ -139,4 +139,9 @@ public class CustomerService {
         return dormantCustomers;
     }
 
+    public List<Customer> findReturningCustomers() {
+        List<Customer> customers = customerRepository.findReturningCustomers();
+        return customers;
+    }
+
 }

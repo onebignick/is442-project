@@ -80,4 +80,9 @@ public class CustomerController {
         return customerService.getDormantCustomers();
     }
     
+
+    @GetMapping("/api/customer/returning")
+    public List<Customer> findReturningCustomers() {
+        return customerService.findReturningCustomers();
+    }
 }
