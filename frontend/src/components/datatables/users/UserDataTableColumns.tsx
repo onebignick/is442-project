@@ -74,7 +74,7 @@ export const UserDataTableColumns: ColumnDef<User>[] = [
                     <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuItem>
-                            <Link href={"/users/edit/" + user.username}>
+                            <Link href={"/users/" + user.username}>
                                 Edit Information
                             </Link>
                         </DropdownMenuItem>

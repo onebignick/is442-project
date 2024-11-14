@@ -20,43 +20,43 @@ export default async function UserPage() {
             const users = await req.json();
             
             return (
-                <>
-                    <BreadcrumbComponent items={breadcrumbItems} />
-                    <div className="grid grid-cols-12 gap-4">
-                        <Card className="col-span-3">
-                            <CardHeader>
-                                <CardTitle>
-                                    Create a user
-                                </CardTitle>
-                                <CardDescription>
-                                    Click below to use our form to create a new user!       
-                                </CardDescription>
-                            </CardHeader>
-                            <CardFooter>
-                                <FormDialogButton
-                                    title="Create a user"
-                                    label="Create a user"
-                                    description="Fill in the form below to create a new user"
-                                    form={<CreateUserForm/>}
-                                />
-                            </CardFooter>
-                        </Card>
-
-                        <Card className="col-span-12">
-                            <CardHeader>
-                                <CardTitle>
-                                    All Users
-                                </CardTitle>
-                                <CardDescription>
-                                    See all user information here
-                                </CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                                <UserDataTable columns={UserDataTableColumns} data={users}/>
-                            </CardContent>
-                        </Card>
+                <div className="grid grid-cols-12 gap-4 p-4">
+                    <div className="col-span-12">
+                        <BreadcrumbComponent items={breadcrumbItems}/>
                     </div>
-                </>
+                    <Card className="col-span-3">
+                        <CardHeader>
+                            <CardTitle>
+                                Create a user
+                            </CardTitle>
+                            <CardDescription>
+                                Click below to use our form to create a new user!       
+                            </CardDescription>
+                        </CardHeader>
+                        <CardFooter>
+                            <FormDialogButton
+                                title="Create a user"
+                                label="Create a user"
+                                description="Fill in the form below to create a new user"
+                                form={<CreateUserForm/>}
+                            />
+                        </CardFooter>
+                    </Card>
+
+                    <Card className="col-span-12">
+                        <CardHeader>
+                            <CardTitle>
+                                All Users
+                            </CardTitle>
+                            <CardDescription>
+                                See all user information here
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <UserDataTable columns={UserDataTableColumns} data={users}/>
+                        </CardContent>
+                    </Card>
+                </div>
             )
         }
     }

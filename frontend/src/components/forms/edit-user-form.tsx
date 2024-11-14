@@ -9,7 +9,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Button } from "../ui/button";
 import { User } from "@/types/User";
 import { useToast } from "@/hooks/use-toast";
-import { BreadcrumbComponent } from '@/components/breadcrumb-component';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 
 const formSchema = z.object({
@@ -33,16 +32,12 @@ const roles = [
     }
 ] as const;
 
-const breadcrumbItems = [
-    { label: "Home", href: "/" },
-    { label: "Users", href: "/users" },
-]
-
 interface UpdateUserFormProps {
     targetUser: User;
+    className: string;
 }
 
-export function EditUserForm({ targetUser } : UpdateUserFormProps) {
+export function EditUserForm({ targetUser, className } : UpdateUserFormProps) {
 
     const { toast } = useToast();
 
@@ -82,11 +77,7 @@ export function EditUserForm({ targetUser } : UpdateUserFormProps) {
     }
 
     return(
-        <Card>
-            <div className="pt-5 pl-5">
-                <BreadcrumbComponent items={breadcrumbItems} />
-            </div>
-
+        <Card className={className}>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 shadow-lg">
                     <CardHeader>

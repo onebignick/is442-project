@@ -1,4 +1,5 @@
 import { BreadcrumbComponent } from "@/components/breadcrumb-component";
+import { EditUserForm } from "@/components/forms/edit-user-form";
 import { IndividualUserCard } from "@/components/user/IndividualUserCard";
 
 const breadcrumbItems = [
@@ -20,6 +21,7 @@ export default async function IndividualUserPage({ params } : IndividualUserPage
                 <BreadcrumbComponent items={breadcrumbItems}/>
             </div>
             <IndividualUserCard className="col-span-12" user={userData}/>
+            <EditUserForm className="col-span-12" targetUser={userData}/>
         </div>
     )
 }

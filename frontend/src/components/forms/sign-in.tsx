@@ -18,6 +18,7 @@ export default function SignInForm() {
 
         try {
             const response = await axios.post("http://localhost:8080/api/user/login", { email, password });
+            console.log(response.data)
 
             if (response.status === 200) {
                 router.push("/users");
