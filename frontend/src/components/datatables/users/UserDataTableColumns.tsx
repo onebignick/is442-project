@@ -21,6 +21,13 @@ export const UserDataTableColumns: ColumnDef<User>[] = [
                 </Button>
             )
         },
+        cell: ({ row }) => {
+            return (
+                <Button variant="link" asChild>
+                    <Link href={"/users/" + row.getValue("username")}>{row.getValue("username")}</Link>
+                </Button>
+            )
+        }
     },
     {
         accessorKey: "password",
