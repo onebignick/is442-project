@@ -80,7 +80,6 @@ public class CustomerRepositoryCustomImpl implements CustomerRepositoryCustom {
     @Override
     public List<Customer> findReturningCustomers() {
         
-
         LocalDate oneYearAgo = LocalDate.now().minusYears(1);
 
         String sql = "SELECT c.* FROM is442_customer c " +
