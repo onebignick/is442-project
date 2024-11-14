@@ -1,8 +1,8 @@
 package com.backend.order;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
-import java.io.File;
 
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpHeaders;
@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.backend.customer.Customer;
 
 @RestController
 public class OrderController {
@@ -85,10 +83,10 @@ public class OrderController {
     }
 
     // New API endpoint for Dormant Customers
-    @GetMapping("/api/customers/dormant")
-    public List<Customer> getDormantCustomers() {
-        return orderService.getDormantCustomers();
-    }
+    // @GetMapping("/api/customers/dormant")
+    // public List<Customer> getDormantCustomers() {
+    //     return orderService.getDormantCustomers();
+    // }
 
     @GetMapping("/api/orders/export")
     public ResponseEntity<?> exportOrders(

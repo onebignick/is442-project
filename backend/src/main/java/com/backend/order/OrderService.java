@@ -1,14 +1,11 @@
 package com.backend.order;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.io.IOException;
 
 import org.springframework.stereotype.Service;
 
@@ -193,30 +190,30 @@ public class OrderService {
         return ordersWithCustomerName;
     }
 
-    public List<Customer> getDormantCustomers() {
-        // Define the date range: six months ago to today
-        LocalDate currentDate = LocalDate.now();
-        LocalDate sixMonthsAgo = currentDate.minusMonths(6);
+    // public List<Customer> getDormantCustomers() {
+    //     // Define the date range: six months ago to today
+    //     LocalDate currentDate = LocalDate.now();
+    //     LocalDate sixMonthsAgo = currentDate.minusMonths(6);
         
-        // Format the dates as strings in "yyyy-MM-dd" format
-        String startDate = sixMonthsAgo.format(DateTimeFormatter.ISO_DATE);
-        String endDate = currentDate.format(DateTimeFormatter.ISO_DATE);
+    //     // Format the dates as strings in "yyyy-MM-dd" format
+    //     String startDate = sixMonthsAgo.format(DateTimeFormatter.ISO_DATE);
+    //     String endDate = currentDate.format(DateTimeFormatter.ISO_DATE);
         
-        // Get all orders within the last 6 months
-        List<Map<String, Object>> recentOrders = getOrdersByDateRange(startDate, endDate);
+    //     // Get all orders within the last 6 months
+    //     List<Map<String, Object>> recentOrders = getOrdersByDateRange(startDate, endDate);
         
-        // Extract unique customer IDs from recent orders
-        List<String> activeCustomerIds = recentOrders.stream()
-                .map(order -> (String) order.get("customer_id"))
-                .filter(Objects::nonNull)
-                .distinct()
-                .collect(Collectors.toList());
+    //     // Extract unique customer IDs from recent orders
+    //     List<String> activeCustomerIds = recentOrders.stream()
+    //             .map(order -> (String) order.get("customer_id"))
+    //             .filter(Objects::nonNull)
+    //             .distinct()
+    //             .collect(Collectors.toList());
         
-        // Retrieve customers who have made purchases within the last 6 months
-        List<Customer> activeCustomers = (List<Customer>) customerRepository.findAllById(activeCustomerIds);
+    //     // Retrieve customers who have made purchases within the last 6 months
+    //     List<Customer> activeCustomers = (List<Customer>) customerRepository.findAllById(activeCustomerIds);
         
-        return activeCustomers;
-    }
+    //     return activeCustomers;
+    // }
 
     public String exportOrdersByFilters(String salesDate, String startDate, String endDate, String customerId) {
         List<Map<String, Object>> filteredOrders;
