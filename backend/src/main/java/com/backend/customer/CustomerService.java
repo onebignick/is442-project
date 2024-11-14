@@ -1,14 +1,11 @@
 package com.backend.customer;
 
-import org.apache.catalina.util.CustomObjectInputStream;
 import org.springframework.stereotype.Service;
 
 import com.backend.user.UserNotFoundException;
 
-import java.lang.foreign.Linker.Option;
 import java.util.List;
 import java.util.Optional;
-import java.util.List;
 
 @Service
 public class CustomerService {

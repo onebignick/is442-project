@@ -2,8 +2,6 @@ package com.backend.product;
 
 import org.springframework.stereotype.Service;
 
-import com.backend.customer.CustomerAlreadyExistsException;
-import com.backend.customer.CustomerNotFoundException;
 import com.backend.user.UserNotFoundException;
 
 import java.util.Optional;
