@@ -1,5 +1,8 @@
 package com.backend.template;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -7,6 +10,9 @@ import java.util.Optional;
 @Service
 public class TemplateService {
     private TemplateRepository templateRepository;
+
+    @Autowired
+    private JavaMailSender mailSender;
 
     public TemplateService(TemplateRepository templateRepository) {
         this.templateRepository = templateRepository;
@@ -46,5 +52,14 @@ public class TemplateService {
         }
         templateRepository.deleteById(template.getId());
         return oTemplate.get();
+    }
+
+    public void sendEmail(String to, String subject, String body) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(to);
+        message.setSubject(subject);
+        message.setText(body);
+        message.setFrom("is442oopproject@gmail.com");
+        mailSender.send(message);
     }
 }

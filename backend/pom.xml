@@ -95,6 +95,13 @@
 			<artifactId>stripe-java</artifactId>
 			<version>20.0.0</version>
 		</dependency>
+
+		<!-- Email functionality -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<build>

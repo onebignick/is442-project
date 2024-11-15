@@ -34,4 +34,18 @@ public class TemplateController {
     public Template deleteTemplate(@RequestBody Template template) throws Exception {
         return templateService.deleteOneTemplate(template);
     }
+
+    @PostMapping("/api/template/sendemail/{id}")
+    public String sendEmail(@PathVariable String id) throws Exception {
+        //get template based on the id of the template assuming id is email address for testing purpose
+        Template template = templateService.findById(id);
+
+        //this is only assuming the column data are meant for the email contents
+        String to = template.getId();  
+        String subject = template.getName();
+        String body = template.getContent();
+    
+        templateService.sendEmail(to, subject, body);
+        return "Email sent successfully!";
+    }
 }
