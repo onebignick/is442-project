@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "../ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { Input } from "../ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Button } from "../ui/button";
@@ -66,7 +66,7 @@ export function EditTemplateForm({ targetTemplate } : UpdateTemplateFormProps) {
     return(
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                <div className="grid grid-cols-12 gap-4 p-8">
+                <div className="grid grid-cols-12 gap-4">
                     <Card className="col-span-6">
                         <CardHeader>
                             <CardTitle className = "text-center">Edit Template Information</CardTitle>
@@ -78,6 +78,7 @@ export function EditTemplateForm({ targetTemplate } : UpdateTemplateFormProps) {
                                 name="name"
                                 render={({ field }) => (
                                     <FormItem className="col-span-12">
+                                        <FormLabel>Template title</FormLabel>
                                         <FormControl>
                                             <Input type="string" placeholder="Template Name" {...field}/>
                                         </FormControl>
@@ -90,6 +91,7 @@ export function EditTemplateForm({ targetTemplate } : UpdateTemplateFormProps) {
                                 name="content"
                                 render={({ field }) => (
                                     <FormItem className="col-span-12">
+                                        <FormLabel>Template Content</FormLabel>
                                         <FormControl>
                                             <Textarea 
                                                 className="h-[400px]"
@@ -101,7 +103,7 @@ export function EditTemplateForm({ targetTemplate } : UpdateTemplateFormProps) {
                                     </FormItem>
                                 )}
                             />
-                            <Button type="submit" className="col-span-2">
+                            <Button type="submit" className="col-span-4">
                                 Submit
                             </Button>
                         </CardContent>
