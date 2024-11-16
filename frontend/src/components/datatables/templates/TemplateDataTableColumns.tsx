@@ -21,6 +21,13 @@ export const TemplateDataTableColumns: ColumnDef<Template>[] = [
                 </Button>
             )
         },
+        cell: ({ row }) => {
+            return (
+                <Button variant="link" asChild>
+                    <Link href={"/templates/"+row.getValue("id")}>{row.getValue("id")}</Link>
+                </Button>
+            )
+        }
     },
     {
         accessorKey: "name",
@@ -67,7 +74,7 @@ export const TemplateDataTableColumns: ColumnDef<Template>[] = [
                     <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuItem>
-                            <Link href={"/templates/edit/" + template.id}>
+                            <Link href={"/templates/" + template.id}>
                                 Edit Template
                             </Link>
                         </DropdownMenuItem>
