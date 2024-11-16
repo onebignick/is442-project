@@ -1,7 +1,7 @@
 "use client"
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "../ui/form";
 import { Input } from "../ui/input";
@@ -32,6 +32,11 @@ export function EditTemplateForm({ targetTemplate } : UpdateTemplateFormProps) {
         }
     });
 
+    const content = useWatch({
+        control: form.control,
+        name: "content",
+    });
+
     async function onSubmit(values: z.infer<typeof formSchema>) {
         const res = await fetch("http://localhost:8080/api/template", {
             method: "PUT",
@@ -59,44 +64,61 @@ export function EditTemplateForm({ targetTemplate } : UpdateTemplateFormProps) {
     }
 
     return(
-        <Card>
-            <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 shadow-lg">
-                    <CardHeader>
-                        <CardTitle className = "text-center">Edit Template Information</CardTitle>
-                    </CardHeader>
-                    <CardContent className="grid grid-cols-2 gap-4">
-                        {/* Participants Field */}
-                        <FormField
-                            control={form.control}
-                            name="name"
-                            render={({ field }) => (
-                                <FormItem className="col-span-2 sm:col-span-1">
-                                    <FormControl>
-                                        <Input type="string" placeholder="Template Name" {...field}/>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="content"
-                            render={({ field }) => (
-                                <FormItem className="col-span-2 sm:col-span-1">
-                                    <FormControl>
-                                        <Textarea placeholder="Enter your template here" {...field}/>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <Button type="submit" className="col-span-2">
-                            Submit
-                        </Button>
-                    </CardContent>
-                </form>
-            </Form>
-        </Card>
+        <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                <div className="grid grid-cols-12 gap-4 p-8">
+                    <Card className="col-span-6">
+                        <CardHeader>
+                            <CardTitle className = "text-center">Edit Template Information</CardTitle>
+                        </CardHeader>
+                        <CardContent className="grid grid-cols-12 gap-4">
+                            {/* Participants Field */}
+                            <FormField
+                                control={form.control}
+                                name="name"
+                                render={({ field }) => (
+                                    <FormItem className="col-span-12">
+                                        <FormControl>
+                                            <Input type="string" placeholder="Template Name" {...field}/>
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="content"
+                                render={({ field }) => (
+                                    <FormItem className="col-span-12">
+                                        <FormControl>
+                                            <Textarea 
+                                                className="h-[400px]"
+                                                placeholder="Enter your template here"
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <Button type="submit" className="col-span-2">
+                                Submit
+                            </Button>
+                        </CardContent>
+                    </Card>
+
+                    <Card className="col-span-6">
+                        <CardHeader>
+                            <CardTitle>
+                                Preview
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <iframe srcDoc={content}/>
+                        </CardContent>
+                    </Card>
+                </div>
+            </form>
+        </Form>
     )
 }
