@@ -20,6 +20,9 @@ export class ClerkWebhookService {
             case "user.created":
                 await this.handleUserCreated(event);
                 break;
+            case "user.updated":
+                await this.handleUserUpdated(event);
+                break;
             case "user.deleted":
                 await this.handleUserDeleted(event);
                 break;
@@ -67,6 +70,23 @@ export class ClerkWebhookService {
     }
 
     async handleUserUpdated(event: any) {
+        const userData = event.data;
+
+        const userToUpdateResponse = await fetch(BACKEND_URL + "user/clerkUserId/" + userData.id);
+        if (!userToUpdateResponse.ok) return;
+
+        const userToUpdate: User = (await userToUpdateResponse.json())[0];
+        userToUpdate.username = userData.username;
+        userToUpdate.role = userData.public_metadata["role"];
+        
+        const updatedUserResponse = await fetch(BACKEND_URL + "user", {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(userToUpdate),
+        })
+        if (updatedUserResponse.ok) return;
+
+        console.error("ClerkWebhookService.handleUserUpdated: An error occured");
     }
 
     async handleUserDeleted(event: any) {

@@ -17,6 +17,21 @@ export class ClerkService {
         return createdUser;
     }
 
+    async updateOneUser(userToUpdate: User) {
+        console.info("ClerkService.updateOneUser: Updating User on Clerk")
+        const userToUpdateClerkUserId = userToUpdate.clerkUserId!;
+        
+        const updatedUser = await clerkClient.users.updateUser(userToUpdateClerkUserId, {
+            username: userToUpdate.username,
+            password: userToUpdate.password,
+            publicMetadata: {
+                role: userToUpdate.role
+            }
+        })
+        console.info("ClerkService.updateOneUser: Updated User on Clerk", updatedUser);
+        return updatedUser;
+    }
+
     async updateUserRole(clerkUserId: string, role: string) {
         await clerkClient.users.updateUserMetadata(clerkUserId, {
             publicMetadata: {

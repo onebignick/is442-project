@@ -51,10 +51,20 @@ export function EditUserForm({ targetUser, className } : UpdateUserFormProps) {
     });
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        const updateRoleResponse = await fetch("/api/clerk/role", {
+        if (targetUser.role === "admin") {
+            toast({
+                title: "Uh oh! Something went wrong",
+                description: "You cant modify the details of another admin"
+            });
+            return;
+        }
+
+        const updateRoleResponse = await fetch("/api/clerk", {
             method: "PUT",
             body: JSON.stringify({
                 clerkUserId: targetUser.clerkUserId!,
+                username: values.username,
+                password: values.password,
                 role: values.role
             })
         });
