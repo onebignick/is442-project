@@ -27,24 +27,46 @@ export class ClerkWebhookService {
     }
 
     async handleUserCreated(event: any) {
-        const userData = event.data;
-        const newUser = {
-            clerkUserId: userData.id,
-            username: userData.username,
-            email: userData.email_addresses[0].email_address,
-            role: userData.publicMetadata.role,
-        } as User;
+        try {
+            console.info("ClerkWebhookService.handleCreatedUser: handling event", event)
 
-        // callout to backend to create user
-        const userToCreateResponse = await fetch(BACKEND_URL + "user", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            }, 
-            body: JSON.stringify(newUser),
-        });
-        const createdUser = await userToCreateResponse.json();
-        console.log(createdUser);
+            const userData = event.data;
+
+            let role;
+            if (!userData.public_metadata && !userData.public_metadata["role"]) {
+                role = ""
+            } else {
+                role = userData.public_metadata["role"];
+            }
+
+            const newUser = {
+                clerkUserId: userData.id,
+                username: userData.username,
+                email: userData.email_addresses[0].email_address,
+                role: role,
+            } as User;
+            
+            // callout to backend to create user
+            console.info("ClerkWebhookService.handleCreatedUser:  creating user on backend")
+            const userToCreateResponse = await fetch(BACKEND_URL + "user", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                }, 
+                body: JSON.stringify(newUser),
+            });
+            if (userToCreateResponse.ok) {
+                const createdUser = await userToCreateResponse.json();
+                console.log(createdUser);
+            } else {
+                console.error("ClerkWebhookService.handleCreatedUser: an error occured")
+            }
+        } catch (e) {
+            console.error(e.message);
+        }
+    }
+
+    async handleUserUpdated(event: any) {
     }
 
     async handleUserDeleted(event: any) {

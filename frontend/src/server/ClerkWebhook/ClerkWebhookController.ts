@@ -13,7 +13,8 @@ export class ClerkWebhookController {
         try {
             await this.clerkWebhookService.handleClerkEvent(request, headers);
             return NextResponse.json({}, {status: 200});
-        } catch {
+        } catch (e) {
+            console.error(e.message)
             return NextResponse.json({}, {status: 500});
         }
     }
