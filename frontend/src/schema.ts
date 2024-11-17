@@ -8,7 +8,7 @@ export const user = createTable("user", {
 	username: varchar("username", { length: 32 }),
 	password: varchar("password"),
 	email: varchar("email", {length: 100}),
-	roles: varchar("roles"),
+	role: varchar("role"),
 });
 
 export const customer = createTable("customer", {

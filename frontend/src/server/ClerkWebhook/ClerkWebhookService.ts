@@ -32,6 +32,7 @@ export class ClerkWebhookService {
             clerkUserId: userData.id,
             username: userData.username,
             email: userData.email_addresses[0].email_address,
+            role: userData.publicMetadata.role,
         } as User;
 
         // callout to backend to create user

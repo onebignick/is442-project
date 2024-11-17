@@ -14,7 +14,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 const formSchema = z.object({
     username: z.string(),
     password: z.string(),
-    roles: z.string(),
+    role: z.string(),
 })
 
 const roles = [
@@ -46,7 +46,7 @@ export function EditUserForm({ targetUser, className } : UpdateUserFormProps) {
         defaultValues: {
             username: targetUser.username,
             password: targetUser.password,
-            roles: targetUser.roles,
+            role: targetUser.role,
         }
     });
 
@@ -55,7 +55,7 @@ export function EditUserForm({ targetUser, className } : UpdateUserFormProps) {
             method: "PUT",
             body: JSON.stringify({
                 clerkUserId: targetUser.clerkUserId!,
-                role: values.roles
+                role: values.role
             })
         });
         
@@ -107,11 +107,11 @@ export function EditUserForm({ targetUser, className } : UpdateUserFormProps) {
                         />
                         <FormField
                             control={form.control}
-                            name="roles"
+                            name="role"
                             render={({ field }) => (
                                 <FormItem>
                                 <FormLabel>Select role</FormLabel>
-                                <Select onValueChange={field.onChange} defaultValue={targetUser.roles}>
+                                <Select onValueChange={field.onChange} defaultValue={targetUser.role}>
                                     <FormControl>
                                     <SelectTrigger>
                                         <SelectValue placeholder="Select a role" />

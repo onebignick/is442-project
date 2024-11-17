@@ -13,7 +13,7 @@ const formSchema = z.object({
     username: z.string(),
     email: z.string().email(),
     password: z.string(),
-    roles: z.string(),
+    role: z.string(),
 })
 
 const roles = [
@@ -37,14 +37,18 @@ export function CreateUserForm() {
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
+        defaultValues: {
+            role: roles[0].id,
+        }
     });
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         try {
             const payload = {
                 ...values,
-                roles: values.roles
+                role: values.role
             };
+            console.log(payload)
 
             const response = await fetch("/api/clerk", {
                 method: "POST",
@@ -59,8 +63,9 @@ export function CreateUserForm() {
                 // console.log("User created successfully: ", data);
                 form.reset({
                     username: "",
+                    email: "",
                     password: "",
-                    roles: "",
+                    role: "",
                 });
                 toast({
                     title: "Success",
@@ -127,7 +132,7 @@ export function CreateUserForm() {
             <div className="rounded-lg space-y-3">
             <FormField
                 control={form.control}
-                name="roles"
+                name="role"
                 render={({ field }) => (
                     <FormItem>
                     <FormLabel>Select role</FormLabel>

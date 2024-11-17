@@ -7,8 +7,12 @@ export class ClerkService {
         const createdUser = await clerkClient.users.createUser({
             emailAddress: [userToCreate.email],
             password: userToCreate.password,
+            publicMetadata: {
+                role: userToCreate.role
+            }
         });
         console.log(createdUser);
+
         return createdUser;
     }
 

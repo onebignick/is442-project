@@ -16,7 +16,7 @@ export function IndividualUserCard({ className, user } : IndividualUserCardProps
             <CardContent>
                 username: {user.username},
                 password: {user.password},
-                roles: {user.roles},
+                roles: {user.role},
             </CardContent>
         </Card>
     )

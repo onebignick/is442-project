@@ -87,7 +87,7 @@ export const UserDataTableColumns: ColumnDef<User>[] = [
                                 body: JSON.stringify({
                                     username: user.username,
                                     password: user.password,
-                                    roles: user.roles,
+                                    role: user.role,
                                 })
                             })
                             if (res.ok) {

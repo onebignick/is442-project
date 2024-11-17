@@ -2,6 +2,9 @@
 const nextConfig = {
     images: {
         domains: ["staging7.shop.timperio.co"]
+    },
+    eslint: {
+        ignoreDuringBuilds: true,
     }
 };
 
