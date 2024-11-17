@@ -144,4 +144,9 @@ public class CustomerService {
         return customers;
     }
 
+    public List<Customer> findActiveCustomers() {
+        List<Customer> customers = customerRepository.findActiveCustomers();
+        return customers;
+    }
+
 }

@@ -91,4 +91,18 @@ public class CustomerRepositoryCustomImpl implements CustomerRepositoryCustom {
 
         return query.getResultList();
     }
+
+    @Override
+    public List<Customer> findActiveCustomers() {
+        LocalDate thirtyDaysAgo = LocalDate.now().minusDays(30);
+
+        String sql = "SELECT DISTINCT c.* FROM is442_customer c " +
+                    "JOIN is442_order o ON c.id = o.customer_id " +
+                    "WHERE o.sales_date >= :thirtyDaysAgo";
+        
+        Query query = entityManager.createNativeQuery(sql, Customer.class);
+        query.setParameter("thirtyDaysAgo", thirtyDaysAgo);
+
+        return query.getResultList();
+    }
 }

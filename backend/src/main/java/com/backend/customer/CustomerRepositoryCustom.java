@@ -8,4 +8,5 @@ public interface CustomerRepositoryCustom {
     List<Customer> findOccasionalCustomers();
     List<Customer> findReturningCustomers();
     List<Object[]> findCustomerLifetimeSpending();
+    List<Customer> findActiveCustomers();
 }

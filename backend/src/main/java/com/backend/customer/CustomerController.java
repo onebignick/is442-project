@@ -85,4 +85,9 @@ public class CustomerController {
     public List<Customer> findReturningCustomers() {
         return customerService.findReturningCustomers();
     }
+
+    @GetMapping("/api/customer/active")
+    public List<Customer> findActiveCusomters() { 
+        return customerService.findActiveCustomers();
+    }
 }
