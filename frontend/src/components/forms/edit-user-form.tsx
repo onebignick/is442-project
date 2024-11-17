@@ -5,11 +5,12 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { Input } from "../ui/input";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import { Button } from "../ui/button";
 import { User } from "@/types/User";
 import { useToast } from "@/hooks/use-toast";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
+import { Label } from "../ui/label";
 
 const formSchema = z.object({
     username: z.string(),
@@ -41,11 +42,12 @@ export function EditUserForm({ targetUser, className } : UpdateUserFormProps) {
 
     const { toast } = useToast();
 
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             username: targetUser.username,
-            password: targetUser.password,
+            password: "",
             role: targetUser.role,
         }
     });
@@ -87,15 +89,26 @@ export function EditUserForm({ targetUser, className } : UpdateUserFormProps) {
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 shadow-lg">
                     <CardHeader>
-                        <CardTitle className = "text-center">Edit User Information</CardTitle>
+                        <CardTitle>User Information</CardTitle>
+                        <CardDescription>View current user information</CardDescription>
                     </CardHeader>
-                    <CardContent className="grid grid-cols-2 gap-4">
-                        {/* Participants Field */}
+                    <CardContent className="grid grid-cols-1 gap-4">
+
+                        <Label>Id</Label>
+                        <Input disabled type="string" value={targetUser.id}/>
+
+                        <Label>ClerkUserId</Label>
+                        <Input disabled type="string" value={targetUser.clerkUserId}/>
+
+                        <Label>Email</Label>
+                        <Input disabled type="string" value={targetUser.email}/>
+
                         <FormField
                             control={form.control}
                             name="username"
                             render={({ field }) => (
-                                <FormItem className="col-span-2 sm:col-span-1">
+                                <FormItem>
+                                    <FormLabel>Username</FormLabel>
                                     <FormControl>
                                         <Input type="string" placeholder="Username" {...field}/>
                                     </FormControl>
@@ -107,9 +120,10 @@ export function EditUserForm({ targetUser, className } : UpdateUserFormProps) {
                             control={form.control}
                             name="password"
                             render={({ field }) => (
-                                <FormItem className="col-span-2 sm:col-span-1">
+                                <FormItem>
+                                    <FormLabel>Reset Password</FormLabel>
                                     <FormControl>
-                                        <Input type="string" placeholder="Password" {...field}/>
+                                        <Input type="string" placeholder="New Password" {...field}/>
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -137,7 +151,7 @@ export function EditUserForm({ targetUser, className } : UpdateUserFormProps) {
                                 </FormItem>
                             )}
                         />
-                        <Button type="submit" className="col-span-2">
+                        <Button type="submit">
                             Submit
                         </Button>
                     </CardContent>
