@@ -46,8 +46,6 @@ export function CreateUserForm() {
                 roles: values.roles
             };
 
-            console.log(payload)
-
             const response = await fetch("/api/clerk", {
                 method: "POST",
                 headers: {

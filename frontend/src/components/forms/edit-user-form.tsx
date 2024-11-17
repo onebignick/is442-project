@@ -51,19 +51,15 @@ export function EditUserForm({ targetUser, className } : UpdateUserFormProps) {
     });
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        const res = await fetch("http://localhost:8080/api/user", {
+        const updateRoleResponse = await fetch("/api/clerk/role", {
             method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
             body: JSON.stringify({
-                username: values.username,
-                password: values.password,
-                roles: values.roles,
-            }),
-        })
+                clerkUserId: targetUser.clerkUserId!,
+                role: values.roles
+            })
+        });
         
-        if (res.ok) {
+        if (updateRoleResponse.ok) {
             toast({
                 title: "Success",
                 description: "User information was successfully updated"

@@ -11,4 +11,14 @@ export class ClerkService {
         console.log(createdUser);
         return createdUser;
     }
+
+    async updateUserRole(clerkUserId: string, role: string) {
+        console.log(clerkUserId, role);
+        await clerkClient.users.updateUserMetadata(clerkUserId, {
+            publicMetadata: {
+                role
+            }
+        })
+        return;
+    }
 }

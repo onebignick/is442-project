@@ -13,4 +13,10 @@ export class ClerkController {
         const createdUser = await this.clerkService.createOneUser(userToCreate)
         return NextResponse.json({ createdUser: createdUser }, { status: 200 });
     }
+
+    async updateUserRole(request: NextRequest) {
+        const { clerkUserId, role } = await request.json();
+        await this.clerkService.updateUserRole(clerkUserId, role);
+        return NextResponse.json({}, {status: 200});
+    }
 }
