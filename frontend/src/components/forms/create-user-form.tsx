@@ -121,7 +121,7 @@ export function CreateUserForm() {
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                         <SelectTrigger>
-                            <SelectValue placeholder="Select the duration of each meeting" />
+                            <SelectValue placeholder="Select the user's role" />
                         </SelectTrigger>
                         </FormControl>
                         <SelectContent>

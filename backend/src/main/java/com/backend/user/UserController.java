@@ -2,8 +2,6 @@ package com.backend.user;
 
 import java.util.*;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,9 +18,14 @@ public class UserController {
         this.userService = userService;
     }
 
-   @GetMapping("/api/user/{username}")
-   public User getUserById(@PathVariable String username) throws Exception {
-      return userService.findById(username);
+   @GetMapping("/api/user/{id}")
+   public User getUserById(@PathVariable String id) throws Exception {
+      return userService.findById(id);
+   }
+
+   @GetMapping("/api/user/clerkUserId/{clerkUserId}")
+   public List<User> getUserByClerkUserId(@PathVariable String clerkUserId) throws Exception {
+      return userService.findByClerkUserId(clerkUserId);
    }
 
    @GetMapping("/api/users")
@@ -45,12 +48,12 @@ public class UserController {
       return userService.updateOneUser(user);
    }
 
-   @PostMapping("/api/user/login")
-   public ResponseEntity<String> loginUser(@RequestBody Map<String, String> loginData) {
-      String email = loginData.get("email");
-      String password = loginData.get("password");
-      boolean isAuthenticated = userService.authenticateUser(email, password);
-      return isAuthenticated ? ResponseEntity.ok("Login successful") : ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
-   }
+   // @PostMapping("/api/user/login")
+   // public ResponseEntity<String> loginUser(@RequestBody Map<String, String> loginData) {
+   //    String email = loginData.get("email");
+   //    String password = loginData.get("password");
+   //    boolean isAuthenticated = userService.authenticateUser(email, password);
+   //    return isAuthenticated ? ResponseEntity.ok("Login successful") : ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+   // }
 
 }

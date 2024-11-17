@@ -8,11 +8,11 @@ const breadcrumbItems = [
 ]
 
 interface IndividualUserPageProps {
-    params: { username: string };
+    params: { userId: string };
 }
 
 export default async function IndividualUserPage({ params } : IndividualUserPageProps) {
-    const userDataResponse =  await fetch(`http://localhost:8080/api/user/${params.username}`);
+    const userDataResponse =  await fetch(`http://localhost:8080/api/user/${params.userId}`);
     const userData = await userDataResponse.json();
 
     return (

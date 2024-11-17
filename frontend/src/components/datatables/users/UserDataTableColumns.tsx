@@ -9,14 +9,14 @@ import Link from "next/link";
 
 export const UserDataTableColumns: ColumnDef<User>[] = [
     {
-        accessorKey: "username",
+        accessorKey: "id",
         header: ({ column }) => {
             return (
                 <Button
                     variant="ghost"
                     onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                 >
-                    Username
+                    User Id
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
             )
@@ -24,34 +24,34 @@ export const UserDataTableColumns: ColumnDef<User>[] = [
         cell: ({ row }) => {
             return (
                 <Button variant="link" asChild>
-                    <Link href={"/users/" + row.getValue("username")}>{row.getValue("username")}</Link>
+                    <Link href={"/apps/admin/users/" + row.getValue("id")}>{row.getValue("id")}</Link>
                 </Button>
             )
         }
     },
     {
-        accessorKey: "password",
+        accessorKey: "clerkUserId",
         header: ({ column }) => {
             return (
                 <Button
                     variant="ghost"
                     onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                 >
-                    Password
+                    Clerk User Id
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
             )
         },
     },
     {
-        accessorKey: "roles",
+        accessorKey: "email",
         header: ({ column }) => {
             return (
                 <Button
                     variant="ghost"
                     onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                 >
-                    Roles
+                    Email
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
             )

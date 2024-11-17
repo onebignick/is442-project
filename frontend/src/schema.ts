@@ -3,8 +3,11 @@ import { integer, pgTableCreator, varchar } from "drizzle-orm/pg-core";
 export const createTable = pgTableCreator((name) => `is442_${name}`);
 
 export const user = createTable("user", {
-	username: varchar("username", { length: 32 }).primaryKey(),
+	id: varchar("id", { length: 255 }).primaryKey(),
+	clerkUserId: varchar("clerk_user_id", { length:32 }),
+	username: varchar("username", { length: 32 }),
 	password: varchar("password"),
+	email: varchar("email", {length: 100}),
 	roles: varchar("roles"),
 });
 
@@ -27,7 +30,6 @@ export const order = createTable("order", {
 	shippingMethod: varchar("shipping_method", {length: 50}),
 	address: varchar("address", {length: 50})
 })
-
 
 export const price = createTable("price", {
 	id: varchar("id", {length: 255}).primaryKey(),
