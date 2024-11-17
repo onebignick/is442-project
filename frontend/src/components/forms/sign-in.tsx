@@ -1,74 +1,47 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import * as Clerk from "@clerk/elements/common";
+import * as SignIn from "@clerk/elements/sign-in";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import axios from "axios";
 
 export default function SignInForm() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [error, setError] = useState(null);
-    const router = useRouter();
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        try {
-            const response = await axios.post("http://localhost:8080/api/user/login", { email, password });
-            console.log(response.data)
-
-            if (response.status === 200) {
-                router.push("/users");
-            }
-        } catch (err) {
-            alert("Invalid credentials");
-        }
-    };
-
     return (
-        <form onSubmit={handleSubmit}>
-            <Card className="border-0 shadow-none">
-                <CardHeader>
-                    <CardTitle className="text-5xl">
-                        <div> Hey there! 👋 </div>
-                    </CardTitle>
+        <SignIn.Root>
+            <SignIn.Step name="start" className="w-xl">
+                <Card className="border-0">
+                    <CardHeader>
+                        <CardTitle className="text-5xl">
+                            <h1>Hey there! 👋</h1>
+                        </CardTitle>
+                        <CardDescription>
+                            Sign in to your account
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent className="flex flex-col justify-center gap-4">
 
-                    <CardDescription className="text-2xl">
-                        Sign in to your account
-                    </CardDescription>
-                </CardHeader>
+                    <Clerk.Field name="identifier">
+                        <Clerk.Input asChild>
+                            <Input type="email" placeholder="Enter your email here"/>
+                        </Clerk.Input>
+                        <Clerk.FieldError/>
+                    </Clerk.Field>
 
-                <CardContent className="flex flex-col justify-center gap-4 border-0 shadow-none">
-                    <div>
-                        <Input
-                            type="email"
-                            placeholder="Enter your email here"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                        />
-                    </div>
+                    <Clerk.Field name="password">
+                        <Clerk.Input asChild>
+                            <Input type="password" placeholder="Enter your password here"/>
+                        </Clerk.Input>
+                        <Clerk.FieldError/>
+                    </Clerk.Field>
+                    <SignIn.Action navigate="forgot-password" className="text-left">Forgot Password?</SignIn.Action>
 
-                    <div>
-                        <Input
-                            type="password"
-                            placeholder="Enter your password here"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                        />
-                    </div>
-
-                    {error && <p className="text-red-500">{error}</p>}
-
-                    <Button type="submit" className="bg-black text-white hover:bg-background/70">
-                        Continue
-                    </Button>
-
-                </CardContent>
-
-            </Card>
-        </form>
-    );
+                    <SignIn.Action submit asChild>
+                        <Button className="bg-coral text-black hover:bg-coral/70">Continue</Button>
+                    </SignIn.Action>
+                    </CardContent>
+                </Card>
+            </SignIn.Step>
+        </SignIn.Root>
+    )
 }

@@ -11,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 
 const formSchema = z.object({
     username: z.string(),
+    email: z.string().email(),
     password: z.string(),
     roles: z.string(),
 })
@@ -45,7 +46,9 @@ export function CreateUserForm() {
                 roles: values.roles
             };
 
-            const response = await fetch("http://localhost:8080/api/user", {
+            console.log(payload)
+
+            const response = await fetch("/api/clerk", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -91,6 +94,18 @@ export function CreateUserForm() {
                         <FormItem className="col-span-2 sm:col-span-2">
                             <FormControl>
                                 <Input type="string" placeholder="Username" {...field}/>
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                        <FormItem className="col-span-2 sm:col-span-2">
+                            <FormControl>
+                                <Input type="string" placeholder="Email" {...field}/>
                             </FormControl>
                             <FormMessage />
                         </FormItem>

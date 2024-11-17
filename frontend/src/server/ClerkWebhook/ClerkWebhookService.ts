@@ -19,8 +19,10 @@ export class ClerkWebhookService {
         switch (event.type) {
             case "user.created":
                 await this.handleUserCreated(event);
+                break;
             case "user.deleted":
                 await this.handleUserDeleted(event);
+                break;
         }
     }
 
