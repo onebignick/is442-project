@@ -3,8 +3,8 @@ import { EditUserForm } from "@/components/forms/edit-user-form";
 import { IndividualUserCard } from "@/components/user/IndividualUserCard";
 
 const breadcrumbItems = [
-    { label: "Home", href: "/" },
-    { label: "Users", href: "/users" },
+    { label: "Home", href: "/apps/admin" },
+    { label: "Users", href: "/apps/admin/users" },
 ]
 
 interface IndividualUserPageProps {

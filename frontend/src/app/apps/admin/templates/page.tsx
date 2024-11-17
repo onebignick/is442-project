@@ -6,7 +6,7 @@ import { CreateTemplateForm } from "@/components/forms/create-template-form"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 
 const breadcrumbItems = [
-    { label: "Home", href: "/" },
+    { label: "Home", href: "/apps/admin" },
 ];
 
 export default async function TemplatesPage() {

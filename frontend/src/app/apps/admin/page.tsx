@@ -1,7 +1,8 @@
-export default function MarketingApp() {
+
+export default function AdminApp() {
     return (
-        <div>
-            this is the marketing app
+        <div className="grid grid-cols-12 gap-4 p-8">
+            
         </div>
     )
 }

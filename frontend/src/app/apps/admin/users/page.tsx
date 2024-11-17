@@ -8,8 +8,8 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 export default async function UserPage() {
     try {
         const breadcrumbItems = [
-            { label: "Home", href: "/" },
-            { label: "Users", href: "/users" },
+            { label: "Home", href: "/apps/admin" },
+            { label: "Users", href: "/apps/admin/users" },
         ]
     
         const req = await fetch("http://localhost:8080/api/users", {
