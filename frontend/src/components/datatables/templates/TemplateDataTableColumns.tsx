@@ -24,7 +24,7 @@ export const TemplateDataTableColumns: ColumnDef<Template>[] = [
         cell: ({ row }) => {
             return (
                 <Button variant="link" asChild>
-                    <Link href={"/templates/"+row.getValue("id")}>{row.getValue("id")}</Link>
+                    <Link href={"templates/"+row.getValue("id")}>{row.getValue("id")}</Link>
                 </Button>
             )
         }
