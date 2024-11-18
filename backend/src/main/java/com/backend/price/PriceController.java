@@ -1,5 +1,8 @@
 package com.backend.price;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,7 +24,7 @@ public class PriceController {
     }
 
     @GetMapping("/api/price")
-    public Iterable<Price> getAllPrice() throws Exception {
+    public List<Map<String, Object>> getAllPrice() throws Exception {
         return priceService.findAllPrice();
     }
 

@@ -2,6 +2,10 @@ package com.backend.price;
 
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -19,8 +23,9 @@ public class PriceService {
         return oPrice.get();
     }
 
-    public Iterable<Price> findAllPrice() {
-        return priceRepository.findAll();
+    public List<Map<String, Object>> findAllPrice() {
+        List<Price> prices = (List<Price>) priceRepository.findAll();
+        return buildPriceDetails(prices);
     }
 
     public Price createOnePrice(Price price) throws PriceAlreadyExistsException {
@@ -47,4 +52,20 @@ public class PriceService {
         priceRepository.deleteById(price.getId());
         return oPrice.get();
     }
+
+    private List<Map<String, Object>> buildPriceDetails(List<Price> prices) {
+        List<Map<String, Object>> priceDetails = new ArrayList<>();
+        
+        for (Price price : prices) {
+            Map<String, Object> priceMap = new HashMap<>();
+            priceMap.put("id", price.getId());
+            priceMap.put("price", price.getPrice());
+            priceMap.put("product_id", price.getProduct().getId());
+            priceMap.put("product_name", price.getProduct().getName());
+            priceDetails.add(priceMap);
+        }
+        
+        return priceDetails;
+    }
+
 }
