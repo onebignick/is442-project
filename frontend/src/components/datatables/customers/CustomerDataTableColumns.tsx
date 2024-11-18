@@ -3,6 +3,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Customer } from "@/types/Customer";
+import Link from "next/link";
 
 
 export const CustomerDataTableColumns: ColumnDef<Customer>[] = [
@@ -19,6 +20,13 @@ export const CustomerDataTableColumns: ColumnDef<Customer>[] = [
                 </Button>
             )
         },
+        cell: ({ row }) => {
+            return (
+                <Button variant="link" asChild>
+                    <Link href={"customers/" + row.getValue("id")}>{row.getValue("id")}</Link>
+                </Button>
+            )
+        }
     },
     {
         accessorKey: "name",
