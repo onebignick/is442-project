@@ -5,7 +5,9 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.*;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 @Service
 public class TemplateService {
@@ -61,5 +63,33 @@ public class TemplateService {
         message.setText(body);
         message.setFrom("is442oopproject@gmail.com");
         mailSender.send(message);
+    }
+
+    public String populateTemplate(String templateId, Map<String,String> placeholders) throws TemplateNotFoundException {
+        Template template = this.findById(templateId);
+        String templateContent = template.getContent();
+
+        for (Map.Entry<String, String> entry : placeholders.entrySet()) {
+            String placeholder = "\\[" + entry.getKey() + "\\]"; // matches for [placeholder]
+            templateContent = templateContent.replaceAll(placeholder, entry.getValue());
+        }
+
+        return templateContent;
+    }
+
+    public List<String> getPlaceholdersForTemplate(String templateId) throws TemplateNotFoundException {
+        Template template = this.findById(templateId);
+        String templateContent = template.getContent();
+
+        List<String> placeholders = new ArrayList<>();
+
+        Pattern pattern = Pattern.compile("\\[.*?\\]");
+        Matcher matcher = pattern.matcher(templateContent);
+        
+        while (matcher.find()) {
+            placeholders.add(matcher.group());
+        }
+        
+        return placeholders;
     }
 }

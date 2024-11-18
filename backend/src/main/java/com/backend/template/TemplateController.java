@@ -1,6 +1,7 @@
 package com.backend.template;
 
 import org.springframework.web.bind.annotation.*;
+import java.util.*;
 
 @RestController
 public class TemplateController {
@@ -47,5 +48,15 @@ public class TemplateController {
     
         templateService.sendEmail(to, subject, body);
         return "Email sent successfully!";
+    }
+
+    @PostMapping("/api/template/populate/{id}")
+    public String populateTemplate(@PathVariable String id, @RequestBody Map<String, String> placeholders) throws Exception {
+        return templateService.populateTemplate(id, placeholders);
+    }
+
+    @GetMapping("/api/template/placeholders/{id}")
+    public List<String> getPlaceholdersForTemplate(@PathVariable String id) throws Exception {
+        return templateService.getPlaceholdersForTemplate(id);
     }
 }
