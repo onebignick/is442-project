@@ -3,10 +3,6 @@
 // import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 // import { Overview } from "@/components/sales/overview"
 
-import { MainNav } from "@/components/sales/main-nav"
-import { Search } from "@/components/sales/search"
-import { UserNav } from "@/components/sales/user-nav"
-
 import { OrderDataTableCard } from "@/components/sales/OrderDataTableCard";
 import { TotalNumberOfSalesCard } from "@/components/sales/TotalNumberOfSalesCard";
 import { TotalAmountFromSalesCard } from "@/components/sales/TotalAmountFromSalesCard";
@@ -73,57 +69,43 @@ export default async function DashboardPage() {
   // }, [totalAmtSales, totalNumSales])
 
   return (
-    <>
-      <div className="hidden flex-col md:flex">
-        <div className="border-b">
-          <div className="flex h-16 items-center px-4">
-            <MainNav className="mx-6" />
-            <div className="ml-auto flex items-center space-x-4">
-              <Search />
-              <UserNav />
-            </div>
-          </div>
-        </div>
+    <div className="grid grid-cols-12 gap-4 p-8">
+      <TotalNumberOfSalesCard className={"col-span-4"} totalNumberSales={allOrders.length}/>
+      <TotalAmountFromSalesCard className={"col-span-4"} totalAmountOfSales={totalOrderValue}/>
+      <AverageOrderValue className={"col-span-4"} averageOrderValue={averageOrderValue}/>
+      <RecentOrdersCard className={"col-span-4"} allOrders={allOrders}/>
+      <OrderDataTableCard className={"col-span-12"}/>
+          {/* <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+            <Card className="col-span-4">
+              <CardHeader className="flex items-center justify-between">
+                  <CardTitle className="text-left">Overview</CardTitle>
 
-        <div className="grid grid-cols-12 gap-4 p-8">
-          <TotalNumberOfSalesCard className={"col-span-4"} totalNumberSales={allOrders.length}/>
-          <TotalAmountFromSalesCard className={"col-span-4"} totalAmountOfSales={totalOrderValue}/>
-          <AverageOrderValue className={"col-span-4"} averageOrderValue={averageOrderValue}/>
-          <RecentOrdersCard className={"col-span-4"} allOrders={allOrders}/>
-          <OrderDataTableCard className={"col-span-12"}/>
-              {/* <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-                <Card className="col-span-4">
-                  <CardHeader className="flex items-center justify-between">
-                      <CardTitle className="text-left">Overview</CardTitle>
+                  <div className="flex items-center space-x-4">
+                      <Select onValueChange={(value) => setSelectedYear(parseInt(value))} value={selectedYear?.toString()}>
+                          <SelectTrigger>
+                              <SelectValue placeholder="Select Year" />
+                          </SelectTrigger>
+                          <SelectContent>
+                              {years.map((year) => (
+                                  <SelectItem key={year} value={year.toString()}>
+                                      {year}
+                                  </SelectItem>
+                              ))}
+                          </SelectContent>
+                      </Select>
 
-                      <div className="flex items-center space-x-4">
-                          <Select onValueChange={(value) => setSelectedYear(parseInt(value))} value={selectedYear?.toString()}>
-                              <SelectTrigger>
-                                  <SelectValue placeholder="Select Year" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                  {years.map((year) => (
-                                      <SelectItem key={year} value={year.toString()}>
-                                          {year}
-                                      </SelectItem>
-                                  ))}
-                              </SelectContent>
-                          </Select>
-
-                          <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value)}>
-                              <TabsList>
-                                  <TabsTrigger value="count">Total Number</TabsTrigger>
-                                  <TabsTrigger value="amount">Total Amount</TabsTrigger>
-                              </TabsList>
-                          </Tabs>
-                        </div>
-                    </CardHeader>
-                    <CardContent className="pl-2">
-                        <Overview selectedYear={selectedYear} activeTab={activeTab} />
-                    </CardContent>
-                </Card> */}
-              </div>
-        </div>
-    </>
+                      <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value)}>
+                          <TabsList>
+                              <TabsTrigger value="count">Total Number</TabsTrigger>
+                              <TabsTrigger value="amount">Total Amount</TabsTrigger>
+                          </TabsList>
+                      </Tabs>
+                    </div>
+                </CardHeader>
+                <CardContent className="pl-2">
+                    <Overview selectedYear={selectedYear} activeTab={activeTab} />
+                </CardContent>
+            </Card> */}
+    </div>
   )
 }
