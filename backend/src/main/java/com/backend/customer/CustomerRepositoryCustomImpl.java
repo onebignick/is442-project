@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.sql.Date;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CustomerRepositoryCustomImpl implements CustomerRepositoryCustom {
 
@@ -62,8 +63,8 @@ public class CustomerRepositoryCustomImpl implements CustomerRepositoryCustom {
     }
 
     @Override
-    public List<Object[]> findCustomerLifetimeSpending() {
-        String sql = "SELECT o.customer_id, c.name, c.email, SUM(oi.quantity * (p.price::DOUBLE PRECISION)) AS lifetime_spending "
+    public List<Customer> findCustomerLifetimeSpending() {
+        String sql = "SELECT o.customer_id as id, c.name, c.email, SUM(oi.quantity * (p.price::DOUBLE PRECISION)) AS lifetime_spending "
                 +
                 "FROM is442_order o " +
                 "JOIN is442_order_line_item oi ON o.id = oi.order_id " +
@@ -72,8 +73,16 @@ public class CustomerRepositoryCustomImpl implements CustomerRepositoryCustom {
                 "GROUP BY o.customer_id, c.name, c.email";
 
         Query query = entityManager.createNativeQuery(sql);
+        List<Object[]> results = query.getResultList();
 
-        return query.getResultList(); // [customer_id, name, email, lifetime_spending]
+        return results.stream().map(row -> {
+            Customer customer = new Customer();
+            customer.setId((String) row[0]);
+            customer.setName((String) row[1]);
+            customer.setEmail((String) row[2]);
+            customer.setLifetimeSpending((Double) row[3]);
+            return customer;
+        }).collect(Collectors.toList());
     }
 
     @Override

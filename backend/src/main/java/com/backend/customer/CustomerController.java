@@ -59,17 +59,17 @@ public class CustomerController {
     }
 
     @GetMapping("/api/customer/highvalue")
-    public List<Object[]> getHighValueCustomers() {
+    public List<Customer> getHighValueCustomers() {
         return customerService.getHighValueCustomers();
     }
 
     @GetMapping("/api/customer/midtier")
-    public List<Object[]> getMidTierCustomers() {
+    public List<Customer> getMidTierCustomers() {
         return customerService.getMidTierCustomers();
     }
 
     @GetMapping("/api/customer/lowspend")
-    public List<Object[]> getLowSpendCustomers() {
+    public List<Customer> getLowSpendCustomers() {
         return customerService.getLowSpendCustomers();
     }
 
