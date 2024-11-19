@@ -2,8 +2,10 @@ import { BreadcrumbComponent } from "@/components/breadcrumb-component";
 import { TemplateDataTable } from "@/components/datatables/templates/TemplateDataTable"
 import { TemplateDataTableColumns } from "@/components/datatables/templates/TemplateDataTableColumns"
 import { FormDialogButton } from "@/components/form-dialog-button"
+import { Button } from "@/components/ui/button";
 import { CreateTemplateForm } from "@/components/forms/create-template-form"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import Link from "next/link"
 
 const breadcrumbItems = [
     { label: "Home", href: "/apps/admin" },
@@ -26,12 +28,16 @@ export default async function TemplatesPage() {
                         <CardTitle>Create a newsletter template here</CardTitle>
                     </CardHeader>
                     <CardFooter>
-                        <FormDialogButton
+                        <Button asChild>
+                            <Link href="/apps/marketing/templates/create">Create a Template</Link>
+                        </Button>
+
+                        {/* <FormDialogButton
                             title="Create a template"
                             label="Create a template"
                             description="Fill in the form below to create a new template"
                             form={<CreateTemplateForm/>}
-                        />
+                        /> */}
                     </CardFooter>
                 </Card>
                 <Card className="col-span-12">
