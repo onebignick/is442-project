@@ -13,6 +13,7 @@ import { format } from "date-fns";
 
 import { DataTableViewOptions } from "@/components/DataTableViewOptions"
 import { DataTableFacetedFilter } from "@/components/DataTableFacetedFilter"
+import Papa from "papaparse"
 
 interface DataTableToolbarProps<TData> {
     table: Table<TData>;
@@ -54,6 +55,21 @@ export function DataTableToolbar<TData>({
         } else {
             table.getColumn("sales_date")?.setFilterValue(undefined);
         }
+    };
+
+    const exportToCSV = () => {
+        const filteredData = table.getFilteredRowModel().rows.map((row) => row.original);
+
+        const csv = Papa.unparse(filteredData);
+
+        const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "filtered-orders.csv");
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
     };
 
     return (
@@ -103,7 +119,15 @@ export function DataTableToolbar<TData>({
                     </Button>
                 )}
             </div>
-            <DataTableViewOptions table={table} />
+            <div className="flex items-center space-x-2">
+                <Button 
+                    variant="secondary"
+                    onClick={exportToCSV} 
+                    className="h-8 px-3 lg:px-4">
+                    Export
+                </Button>
+                <DataTableViewOptions table={table} />
+            </div>
         </div>
     )
 }
