@@ -7,7 +7,7 @@ import { Order } from "@/types/Order";
 
 export const OrderDataTableColumns: ColumnDef<Order>[] = [
     {
-        accessorKey: "id",
+        accessorKey: "order_id",
         header: ({ column }) => {
             return (
                 <Button
@@ -21,7 +21,7 @@ export const OrderDataTableColumns: ColumnDef<Order>[] = [
         },
     },
     {
-        accessorKey: "salesDate",
+        accessorKey: "sales_date",
         header: ({ column }) => {
             return (
                 <Button
@@ -35,7 +35,7 @@ export const OrderDataTableColumns: ColumnDef<Order>[] = [
         },
     },
     {
-        accessorKey: "salesType",
+        accessorKey: "sales_type",
         header: ({ column }) => {
             return (
                 <Button
@@ -49,7 +49,7 @@ export const OrderDataTableColumns: ColumnDef<Order>[] = [
         },
     },
     {
-        accessorKey: "shippingMethod",
+        accessorKey: "shipping_method",
         header: ({ column }) => {
             return (
                 <Button
@@ -57,6 +57,20 @@ export const OrderDataTableColumns: ColumnDef<Order>[] = [
                     onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                 >
                     Shipping Method
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            )
+        },
+    },
+    {
+        accessorKey: "customer_id",
+        header: ({ column }) => {
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                >
+                    Customer ID
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
             )
@@ -75,5 +89,23 @@ export const OrderDataTableColumns: ColumnDef<Order>[] = [
                 </Button>
             )
         },
+    },
+    {
+        accessorKey: "total_price",
+        header: ({ column }) => {
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                >
+                    Order Value ($)
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            )
+        },
+        cell: ({ getValue }) => {
+            const value = getValue<number>();
+            return value.toFixed(2); 
+        }
     },
 ]

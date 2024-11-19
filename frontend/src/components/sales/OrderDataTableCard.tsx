@@ -8,7 +8,7 @@ interface OrderDataTableCardProps {
 }
 
 export async function OrderDataTableCard({ className } : OrderDataTableCardProps) {
-    const ordersResponse = await fetch("http://localhost:8080/api/orders");
+    const ordersResponse = await fetch("http://localhost:8080/api/orders/price");
     const orders: Order[] = await ordersResponse.json();
 
     return (

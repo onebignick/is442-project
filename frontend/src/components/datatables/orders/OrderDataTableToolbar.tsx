@@ -47,16 +47,24 @@ export function DataTableToolbar<TData>({
                     }
                     className="h-8 w-[150px] lg:w-[250px]"
                 />
-                {table.getColumn("salesType") && (
+                <Input
+                    placeholder="Filter Orders By Customer Id..."
+                    value={(table.getColumn("customer_id")?.getFilterValue() as string) ?? ""}
+                    onChange={(event) =>
+                        table.getColumn("customer_id")?.setFilterValue(event.target.value)
+                    }
+                    className="h-8 w-[150px] lg:w-[250px]"
+                />
+                {table.getColumn("sales_type") && (
                     <DataTableFacetedFilter
-                        column={table.getColumn("salesType")}
+                        column={table.getColumn("sales_type")}
                         title="Sales Type"
                         options={saleTypes}
                     />
                 )}
-                {table.getColumn("shippingMethod") && (
+                {table.getColumn("shipping_method") && (
                     <DataTableFacetedFilter
-                        column={table.getColumn("shippingMethod")}
+                        column={table.getColumn("shipping_method")}
                         title="Shipping Method"
                         options={shippingMethods}
                     />

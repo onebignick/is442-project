@@ -24,12 +24,6 @@ export function SalesMainNav({
       >
         Sales
       </Link>
-      <Link
-        href="/apps/sales/customers"
-        className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
-      >
-        Customers
-      </Link>
     </nav>
   )
 }
