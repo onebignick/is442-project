@@ -68,7 +68,7 @@ public class TemplateService {
         mailSender.send(message);
     }
 
-    public Map<String, Email> populateTemplate(String templateId, Map<String,String> placeholders, List<Customer> customers) throws TemplateNotFoundException {
+    public Map<String, Email> populateTemplate(String templateId, String emailSubject, Map<String,String> placeholders, List<Customer> customers) throws TemplateNotFoundException {
         Template template = this.findById(templateId);
         String templateContent = template.getContent();
 
@@ -86,7 +86,7 @@ public class TemplateService {
 
             Email email = new Email(
                 customer.getEmail(),  // recipient
-                template.getName(),  // subject
+                emailSubject,  // subject
                 customerTemplate  // content
             );
 

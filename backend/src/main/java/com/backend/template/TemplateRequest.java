@@ -11,6 +11,7 @@ import com.backend.customer.*;
 @NoArgsConstructor
 public class TemplateRequest {
     private String id;  // template ID
+    private String emailSubject;
     private Map<String, String> placeholders;  // placeholders to replace in the template
     private List<Customer> customers;  // list of customer objects
 }
