@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
 import com.backend.customer.*;
+import com.backend.email.*;
 
 @Service
 public class TemplateService {
@@ -67,7 +68,7 @@ public class TemplateService {
         mailSender.send(message);
     }
 
-    public Map<String, Map<String, String>> populateTemplate(String templateId, Map<String,String> placeholders, List<Customer> customers) throws TemplateNotFoundException {
+    public Map<String, Email> populateTemplate(String templateId, Map<String,String> placeholders, List<Customer> customers) throws TemplateNotFoundException {
         Template template = this.findById(templateId);
         String templateContent = template.getContent();
 
@@ -77,17 +78,19 @@ public class TemplateService {
         }
 
         // store populated templates for each customer
-        Map<String, Map<String, String>> populatedTemplates = new HashMap<>();
+        Map<String, Email> populatedTemplates = new HashMap<>();
 
         for (Customer customer:customers) {
             String customerTemplate = templateContent;
             customerTemplate = customerTemplate.replaceAll("\\[Customer Name\\]", customer.getName());
 
-            Map<String,String> result = new HashMap<>();
-            result.put("email", customerTemplate);
-            result.put("toEmail", customer.getEmail());
+            Email email = new Email(
+                customer.getEmail(),  // recipient
+                template.getName(),  // subject
+                customerTemplate  // content
+            );
 
-            populatedTemplates.put(customer.getId(), result);
+            populatedTemplates.put(customer.getId(), email);
         }
 
         return populatedTemplates;

@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 import com.backend.customer.*;
+import com.backend.email.Email;
 
 @RestController
 public class TemplateController {
@@ -53,7 +54,7 @@ public class TemplateController {
     }
 
     @PostMapping("/api/template/populate")
-    public Map<String, Map<String, String>> populateTemplate(@RequestBody TemplateRequest templateRequest) throws Exception {
+    public Map<String, Email> populateTemplate(@RequestBody TemplateRequest templateRequest) throws Exception {
         Map<String, String> placeholders = templateRequest.getPlaceholders();
         List<Customer> customers = templateRequest.getCustomers();
         return templateService.populateTemplate(templateRequest.getId(), placeholders, customers);
