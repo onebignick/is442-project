@@ -28,6 +28,26 @@ const shippingMethods = [
 
 const saleTypes = [
     {
+        value: "Direct - B2B",
+        label: "Direct - B2B",
+    },
+    {
+        value: "Direct - B2C",
+        label: "Direct - B2C",
+    },
+    {
+        value: "Wholesaler",
+        label: "Wholesaler",
+    },
+    {
+        value: "Consignment",
+        label: "Consignment",
+    },
+    {
+        value: "Marketing",
+        label: "Marketing",
+    },
+    {
         value: "Online",
         label: "Online",
     },
@@ -58,7 +78,7 @@ export function DataTableToolbar<TData>({
     };
 
     const exportToCSV = () => {
-        const filteredData = table.getFilteredRowModel().rows.map((row) => row.original);
+        const filteredData = table.getSortedRowModel().rows.map((row) => row.original);
 
         const csv = Papa.unparse(filteredData);
 
