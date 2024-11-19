@@ -9,6 +9,8 @@ import java.util.*;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
+import com.backend.customer.*;
+
 @Service
 public class TemplateService {
     private TemplateRepository templateRepository;
@@ -65,7 +67,7 @@ public class TemplateService {
         mailSender.send(message);
     }
 
-    public String populateTemplate(String templateId, Map<String,String> placeholders) throws TemplateNotFoundException {
+    public Map<String, Map<String, String>> populateTemplate(String templateId, Map<String,String> placeholders, List<Customer> customers) throws TemplateNotFoundException {
         Template template = this.findById(templateId);
         String templateContent = template.getContent();
 
@@ -74,7 +76,21 @@ public class TemplateService {
             templateContent = templateContent.replaceAll(placeholder, entry.getValue());
         }
 
-        return templateContent;
+        // store populated templates for each customer
+        Map<String, Map<String, String>> populatedTemplates = new HashMap<>();
+
+        for (Customer customer:customers) {
+            String customerTemplate = templateContent;
+            customerTemplate = customerTemplate.replaceAll("\\[Customer Name\\]", customer.getName());
+
+            Map<String,String> result = new HashMap<>();
+            result.put("email", customerTemplate);
+            result.put("toEmail", customer.getEmail());
+
+            populatedTemplates.put(customer.getId(), result);
+        }
+
+        return populatedTemplates;
     }
 
     public List<String> getPlaceholdersForTemplate(String templateId) throws TemplateNotFoundException {

@@ -3,6 +3,8 @@ package com.backend.template;
 import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
+import com.backend.customer.*;
+
 @RestController
 public class TemplateController {
     private final TemplateService templateService;
@@ -50,9 +52,11 @@ public class TemplateController {
         return "Email sent successfully!";
     }
 
-    @PostMapping("/api/template/populate/{id}")
-    public String populateTemplate(@PathVariable String id, @RequestBody Map<String, String> placeholders) throws Exception {
-        return templateService.populateTemplate(id, placeholders);
+    @PostMapping("/api/template/populate")
+    public Map<String, Map<String, String>> populateTemplate(@RequestBody TemplateRequest templateRequest) throws Exception {
+        Map<String, String> placeholders = templateRequest.getPlaceholders();
+        List<Customer> customers = templateRequest.getCustomers();
+        return templateService.populateTemplate(templateRequest.getId(), placeholders, customers);
     }
 
     @GetMapping("/api/template/placeholders/{id}")
