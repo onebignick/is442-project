@@ -27,6 +27,10 @@ import {
 
 import { DataTablePagination } from "@/components/DataTablePagination"
 import { DataTableToolbar } from "./CustomerDataTableToolbar";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { useRouter } from "next/router";
+
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
@@ -67,9 +71,65 @@ export function CustomerDataTable<TData, TValue>({
         getFacetedUniqueValues: getFacetedUniqueValues(),
     })
 
+    const handleSendEmail = () => {
+        const selectedRows = table.getSelectedRowModel().rows;
+        const selectedData = selectedRows.map((row) => row.original);
+        const emailList = selectedData.map((data) => data.email).join(", ");
+
+        // Store the selectedData array in sessionStorage
+        if (typeof window !== "undefined") {
+            sessionStorage.setItem("selectedCustomers", JSON.stringify(selectedData));
+        }
+
+        return emailList;
+    };
+
     return (
         <div className="space-y-4">
             <DataTableToolbar table={table} />
+
+            <div>
+                {/* <Button
+                    onClick={() => {
+                        const selectedRows = table.getSelectedRowModel().rows;
+                        const selectedData = selectedRows.map((row) => row.original);
+                        console.log("Selected Data:", selectedData);
+                    }}
+                >
+                    Log Selected Rows
+                </Button> */}
+
+                {/* <Button
+                    onClick={() => {
+                        const selectedRows = table.getSelectedRowModel().rows;
+                        const selectedData = selectedRows.map((row) => row.original);
+                        const emailList = selectedData.map((data) => data.email).join(", ");
+                        console.log("Selected Emails:", emailList);
+                        setEmails(emailList); // Save the emails to state
+                    }}
+                >
+                    <Link
+                        href={{
+                            pathname: "/apps/marketing/templates/send",
+                            query: { recipients: emails }, // Access emails from state
+                        }}
+                    >
+                        Send Email
+                    </Link>
+                </Button> */}
+
+                <Button>
+                    <Link
+                        href={{
+                            pathname: "/apps/marketing/templates/send",
+                            query: { recipients: handleSendEmail() }, // Pass email list as query parameter
+                        }}
+                    >
+                        Send Email
+                    </Link>
+                </Button>
+            </div>
+
             <div className="rounded-md border">
                 <Table>
                     <TableHeader>
@@ -90,7 +150,7 @@ export function CustomerDataTable<TData, TValue>({
                             </TableRow>
                         ))}
                     </TableHeader>
-                    
+
                     <TableBody>
                         {table.getRowModel().rows?.length ? (
                             table.getRowModel().rows.map((row) => (

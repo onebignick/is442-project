@@ -31,8 +31,9 @@ const formSchema = z.object({
     dynamicFields: z.record(z.string(), z.string()),
 });
 
-export function SendEmailForm() {
+export function SendEmailForm({ selectedRecipients }: { selectedRecipients: string }) {
     const { toast } = useToast();
+
     const [templates, setTemplates] = React.useState<{ id: string; name: string }[]>([]);
     const [products, setProducts] = React.useState<{ id: string; name: string }[]>([]);
     const [placeholders, setPlaceholders] = React.useState<string[]>([]);
@@ -148,12 +149,16 @@ export function SendEmailForm() {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            recipient: "",
+            recipient: selectedRecipients,
             template: "",
             subject: "",
             dynamicFields: {},
         },
     });
+
+    React.useEffect(() => {
+        form.setValue("recipient", selectedRecipients); // Update the recipient field when prop changes
+    }, [selectedRecipients, form]);
 
     const handleProductChange = (productName: string, rowIndex: number) => {
         const selectedProduct = products.find((product) => product.name === productName);
