@@ -1,16 +1,21 @@
 "use client"
 
+import React from "react";
 import { Cross2Icon } from "@radix-ui/react-icons"
 import { Table } from "@tanstack/react-table"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 
+import { DateRange } from "react-day-picker"
+import { DatePickerWithRange } from "@/components/ui/date-picker-with-range"
+import { format } from "date-fns";
+
 import { DataTableViewOptions } from "@/components/DataTableViewOptions"
 import { DataTableFacetedFilter } from "@/components/DataTableFacetedFilter"
 
 interface DataTableToolbarProps<TData> {
-    table: Table<TData>
+    table: Table<TData>;
 }
 
 const shippingMethods = [
@@ -35,6 +40,21 @@ export function DataTableToolbar<TData>({
     table,
 }: DataTableToolbarProps<TData>) {
     const isFiltered = table.getState().columnFilters.length > 0
+
+    const [dateRange, setDateRange] = React.useState<DateRange | undefined>(undefined);
+
+    const handleDateRangeChange = (dateRange: DateRange | undefined) => {
+        setDateRange(dateRange);
+    
+        if (dateRange?.from && dateRange?.to) {
+            table.getColumn("sales_date")?.setFilterValue([
+                format(dateRange.from, "yyyy-MM-dd"),
+                format(dateRange.to, "yyyy-MM-dd"),
+            ]);
+        } else {
+            table.getColumn("sales_date")?.setFilterValue(undefined);
+        }
+    };
 
     return (
         <div className="flex items-center justify-between">
@@ -69,6 +89,9 @@ export function DataTableToolbar<TData>({
                         options={shippingMethods}
                     />
                 )}
+                <DatePickerWithRange 
+                    onChange={handleDateRangeChange} 
+                />
                 {isFiltered && (
                     <Button
                         variant="ghost"

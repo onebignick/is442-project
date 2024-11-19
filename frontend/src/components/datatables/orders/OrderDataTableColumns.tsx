@@ -55,6 +55,17 @@ export const OrderDataTableColumns: ColumnDef<Order>[] = [
                 </Button>
             )
         },
+        filterFn: (row, columnId, filterValue) => {
+            if (!filterValue || filterValue.length !== 2) {
+                return true; // no filter applied
+            }
+            const date = new Date(row.getValue(columnId));
+            const [startDate, endDate] = filterValue;
+            return (
+                (!startDate || date >= new Date(startDate)) &&
+                (!endDate || date <= new Date(endDate))
+            );
+        },
     },
     {
         accessorKey: "sales_type",
