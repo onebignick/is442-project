@@ -16,5 +16,6 @@ import java.util.UUID;
 public class Product {
     @Id
     private String id = UUID.randomUUID().toString();
+    private String stripeProductId;
     private String name;
 }

@@ -28,6 +28,7 @@ public class Order {
     @JoinColumn(name = "customer_id", referencedColumnName = "id", nullable = false) // Corrected column name
     private Customer customer;
 
+    private String invoiceId;
     private String salesDate;
     private String salesType;
     private String shippingMethod;

@@ -20,6 +20,7 @@ public class Price {
     @Id
     private String id = UUID.randomUUID().toString();
     private String price;
+    private String stripePriceId;
 
     @ManyToOne
     @JoinColumn(name = "product_id", referencedColumnName = "id")

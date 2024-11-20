@@ -32,6 +32,11 @@ public class CustomerService {
         return oCustomer.get();
     }
 
+    public List<Customer> findByEmail(String email) {
+        List<Customer> customer = customerRepository.findByEmail(email);
+        return customer;
+    }
+
     public List<Customer> findOneTimeCustomers() {
         List<Customer> oneTimeCustomers = customerRepository.findOneTimeCustomers();
         return oneTimeCustomers;

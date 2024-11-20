@@ -1,9 +1,9 @@
-import { Customer } from "./Customer";
-
-export interface Order {
+export type CreateOrder = {
     id?: string;
     invoiceId: string;
-    customer: Customer;
+    customer: {
+        id: string,
+    };
     salesDate: string;
     salesType: string;
     shippingMethod: string;

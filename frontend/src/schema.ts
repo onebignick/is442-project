@@ -13,17 +13,20 @@ export const user = createTable("user", {
 
 export const customer = createTable("customer", {
 	id: varchar("id", {length: 255}).primaryKey(),
+	stripeCustomerId: varchar("stripe_customer_id", { length: 32 }),
 	name: varchar("name", {length: 50}),
 	email: varchar("email", {length: 50})
 })
 
 export const product = createTable("product", {
 	id: varchar("id", {length: 255}).primaryKey(),
+	stripeProductId: varchar("stripe_product_id", { length: 32}),
 	productName: varchar("name", { length: 50})
 })
 
 export const order = createTable("order", {
 	id: varchar("id", {length: 255}).primaryKey(),
+	invoiceId: varchar("invoice_id", {length: 50}),
 	customerId: varchar("customer_id", {length: 50}).references(() => customer.id),
 	salesDate: varchar("sales_date", {length: 50}),
 	salesType: varchar("sales_type", {length: 50}),
@@ -33,6 +36,7 @@ export const order = createTable("order", {
 
 export const price = createTable("price", {
 	id: varchar("id", {length: 255}).primaryKey(),
+	stripePriceId: varchar("stripe_price_id", {length: 32}),
 	price: varchar("price", {length: 32}),
 	productId: varchar("product_id", {length: 255}).references(() => product.id)
 })

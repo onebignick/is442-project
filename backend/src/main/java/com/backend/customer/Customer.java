@@ -17,6 +17,7 @@ import java.util.UUID;
 public class Customer {
     @Id
     private String id = UUID.randomUUID().toString();
+    private String stripeCustomerId;
     private String name;
     private String email;
 

@@ -1,8 +1,10 @@
+import { CheckoutForm } from "@/components/forms/checkout-form";
+
 export default function StorePage() {
 
     return (
         <div>
-            Store page
+            <CheckoutForm className="flex flex-col"/>
         </div>
     )
 }

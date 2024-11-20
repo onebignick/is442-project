@@ -23,6 +23,11 @@ public class CustomerController {
         return customerService.findById(id);
     }
 
+    @GetMapping("/api/customer/email/{email}")
+    public List<Customer> getCustomerByEmail(@PathVariable String email) throws CustomerNotFoundException {
+        return customerService.findByEmail(email);
+    }
+
     @GetMapping("/api/customer/onetime")
     public List<Customer> findOneTimeCustomers() {
         return customerService.findOneTimeCustomers();
@@ -72,7 +77,6 @@ public class CustomerController {
     public List<Customer> getLowSpendCustomers() {
         return customerService.getLowSpendCustomers();
     }
-
 
     // New endpoint for dormant customers
     @GetMapping("/api/customer/dormant")
