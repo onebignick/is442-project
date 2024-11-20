@@ -3,6 +3,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Order } from "@/types/Order";
+import Link from "next/link";
 import { Checkbox } from "@/components/ui/checkbox";
 
 export const OrderDataTableColumns: ColumnDef<Order>[] = [
@@ -108,6 +109,15 @@ export const OrderDataTableColumns: ColumnDef<Order>[] = [
                 </Button>
             )
         },
+        cell: ({ row }) => {
+            return (
+                <Button variant="link" asChild>
+                    <Link href={`/apps/sales/customers/${row.getValue("customer_id")}`}>
+                        {row.getValue("customer_id")}
+                    </Link>
+                </Button>
+            )
+        }
     },
     {
         accessorKey: "address",

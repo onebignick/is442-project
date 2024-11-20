@@ -1,6 +1,7 @@
 package com.backend.order;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class OrderController {
     private final OrderService orderService;
-    
+
     public OrderController(OrderService orderService) {
         this.orderService = orderService;
     }
@@ -45,19 +46,26 @@ public class OrderController {
         return orderService.getAllOrdersWithTotalPrice();
     }
 
+    // added for mkting/sales individual page
+    @GetMapping("/api/order/customerid/{customer_id}/total")
+    public List<Map<String, Object>> getOrderCustIdWithTotal(@PathVariable String customer_id) throws Exception {
+        return orderService.getOrderCustIdWithTotal(customer_id);  // Call the updated service method
+    }
+    
+
     @PutMapping("/api/order")
     public Order updateOrder(@RequestBody Order order) throws Exception {
-       return orderService.updateOneOrder(order);
+        return orderService.updateOneOrder(order);
     }
 
     @PostMapping("/api/order")
     public Order createOrder(@RequestBody Order order) throws Exception {
-       return orderService.createOneOrder(order);
+        return orderService.createOneOrder(order);
     }
 
     @DeleteMapping("/api/order")
     public String deleteOrder(@RequestBody Order order) throws Exception {
-       return orderService.deleteOneOrder(order);
+        return orderService.deleteOneOrder(order);
     }
 
     @GetMapping("/api/order/salestype/{salesType}")
@@ -75,7 +83,7 @@ public class OrderController {
     public List<Map<String, Object>> getOrdersByDateRange(@RequestParam String startDate, String endDate) {
         return orderService.getOrdersByDateRange(startDate, endDate);
     }
- 
+
     // New GetMapping to retrieve orders with customer names
     @GetMapping("/api/orders/customer")
     public List<Map<String, Object>> getAllCustomerOrders() {
@@ -85,7 +93,7 @@ public class OrderController {
     // New API endpoint for Dormant Customers
     // @GetMapping("/api/customers/dormant")
     // public List<Customer> getDormantCustomers() {
-    //     return orderService.getDormantCustomers();
+    // return orderService.getDormantCustomers();
     // }
 
     @GetMapping("/api/orders/export")
