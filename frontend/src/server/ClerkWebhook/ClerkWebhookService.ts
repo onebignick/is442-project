@@ -96,6 +96,7 @@ export class ClerkWebhookService {
         if (!targetUserToDeleteResponse.ok) return;
 
         const targetUserToDelete = await targetUserToDeleteResponse.json()
+        console.log(targetUserToDelete)
         const deletedUserResponse = await fetch(BACKEND_URL + "user", {
             method: "DELETE",
             headers: {"Content-Type": "application/json"},

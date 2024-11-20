@@ -102,7 +102,7 @@ export const UserDataTableColumns: ColumnDef<User>[] = [
                     <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuItem>
-                            <Link href={"/users/" + user.username}>
+                            <Link href={"/apps/admin/users/" + user.id}>
                                 Edit Information
                             </Link>
                         </DropdownMenuItem>
@@ -113,6 +113,7 @@ export const UserDataTableColumns: ColumnDef<User>[] = [
                                     "Content-Type": "application/json",
                                 },
                                 body: JSON.stringify({
+                                    id: user.id,
                                     username: user.username,
                                     password: user.password,
                                     role: user.role,
