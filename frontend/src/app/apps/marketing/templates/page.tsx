@@ -23,23 +23,7 @@ export default async function TemplatesPage() {
                 <div className="col-span-12">
                     <BreadcrumbComponent items={breadcrumbItems}/>
                 </div>
-                <Card className="col-span-4">
-                    <CardHeader>
-                        <CardTitle>Create a newsletter template here</CardTitle>
-                    </CardHeader>
-                    <CardFooter>
-                        <Button asChild>
-                            <Link href="/apps/marketing/templates/create">Create a Template</Link>
-                        </Button>
 
-                        {/* <FormDialogButton
-                            title="Create a template"
-                            label="Create a template"
-                            description="Fill in the form below to create a new template"
-                            form={<CreateTemplateForm/>}
-                        /> */}
-                    </CardFooter>
-                </Card>
                 <Card className="col-span-12">
                     <CardHeader>
                         <CardTitle>All Newsletter Templates</CardTitle>
