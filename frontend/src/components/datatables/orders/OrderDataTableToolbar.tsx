@@ -24,6 +24,10 @@ const shippingMethods = [
         value: "Same Day Delivery",
         label: "Same Day Delivery",
     },
+    {
+        value: "Standard Delivery",
+        label: "Standard Delivery",
+    },
 ];
 
 const saleTypes = [
