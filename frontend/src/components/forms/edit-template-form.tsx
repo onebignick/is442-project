@@ -115,8 +115,15 @@ export function EditTemplateForm({ targetTemplate } : UpdateTemplateFormProps) {
                                 Preview
                             </CardTitle>
                         </CardHeader>
-                        <CardContent>
-                            <iframe srcDoc={content}/>
+
+                        <CardContent className="h-full">
+                            <iframe
+                                srcDoc={content}
+                                className="w-full h-[90%]"
+                                style={{
+                                    border: "none",
+                                }}
+                            />
                         </CardContent>
                     </Card>
                 </div>

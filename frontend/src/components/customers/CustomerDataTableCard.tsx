@@ -30,9 +30,6 @@ export function CustomerDataTableCard({ allCustomers } : CustomerDataTableCardPr
             <CardHeader className="flex flex-col gap-2 w-full">
                 <div className="flex justify-between items-center w-full">
                     <CardTitle className="text-lg font-semibold">Customer Table</CardTitle>
-                    <Button>
-                        <Link href="/apps/marketing/templates/send"> Send Email </Link>
-                    </Button>
                 </div>
             </CardHeader>
 
@@ -42,7 +39,7 @@ export function CustomerDataTableCard({ allCustomers } : CustomerDataTableCardPr
                     <SelectTrigger>
                         <SelectValue/>
                     </SelectTrigger>
-                    
+
                     <SelectContent>
                         {CustomerDataTableFilters.map((item) => {
                             return <SelectItem key={item.id} value={item.id}>{item.label}</SelectItem>
