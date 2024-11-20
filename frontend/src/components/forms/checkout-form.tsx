@@ -7,6 +7,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "../ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import { Button } from "../ui/button";
+import Image from "next/image";
 
 const formSchema = z.object({
     priceId: z.string(),
@@ -50,7 +51,7 @@ export function CheckoutForm({ className } : UpdateUserFormProps) {
                         <CardDescription></CardDescription>
                     </CardHeader>
                     <CardContent className="grid grid-cols-1 gap-4">
-
+                        <Image src="/olive_oil.jpg" alt="olive oil" width={200} height={200}/>
                         <FormField
                             control={form.control}
                             name="email"
