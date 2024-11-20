@@ -47,11 +47,14 @@ public class OrderService {
     }
 
 
-    public List<Order> findByCustId(String customer_id) throws OrderNotFoundException {
-        List<Order> order = orderRepository.findAllByCustomerId(customer_id);
-        if (order.isEmpty()) throw new OrderNotFoundException();
+    public List<Map<String, Object>> findByCustId(String customer_id) throws OrderNotFoundException {
+        List<Order> orders = orderRepository.findAllByCustomerId(customer_id);
+        if (orders.isEmpty()) throw new OrderNotFoundException();
 
-        return order;
+        List<Map<String, Object>> result = new ArrayList<>();
+        orders.forEach(order -> result.add(buildOrderDetails(order)));
+
+        return result;
     }
 
 

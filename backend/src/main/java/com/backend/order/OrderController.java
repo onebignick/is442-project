@@ -31,7 +31,7 @@ public class OrderController {
     }
 
     @GetMapping("/api/order/customerid/{customer_id}")
-    public List<Order> getOrderCustId(@PathVariable String customer_id) throws Exception {
+    public List<Map<String, Object>> getOrderCustId(@PathVariable String customer_id) throws Exception {
         return orderService.findByCustId(customer_id);
     }
 
