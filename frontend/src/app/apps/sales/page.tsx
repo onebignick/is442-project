@@ -4,6 +4,7 @@
 // import { Overview } from "@/components/sales/overview"
 
 import { OrderDataTableCard } from "@/components/sales/OrderDataTableCard";
+import { PurchasesOverviewCard } from "@/components/sales/PurchasesOverviewCard";
 import { TotalNumberOfSalesCard } from "@/components/sales/TotalNumberOfSalesCard";
 import { TotalAmountFromSalesCard } from "@/components/sales/TotalAmountFromSalesCard";
 import { AverageOrderValue } from "@/components/sales/AverageOrderValue";
@@ -74,6 +75,7 @@ export default async function DashboardPage() {
       <TotalAmountFromSalesCard className={"col-span-4"} totalAmountOfSales={totalOrderValue}/>
       <AverageOrderValue className={"col-span-4"} averageOrderValue={averageOrderValue}/>
       <RecentOrdersCard className={"col-span-4"} allOrders={allOrders}/>
+      <PurchasesOverviewCard className="col-span-8" />
       <OrderDataTableCard className={"col-span-12"}/>
           {/* <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
             <Card className="col-span-4">
