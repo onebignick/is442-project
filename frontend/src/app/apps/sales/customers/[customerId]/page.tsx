@@ -14,7 +14,14 @@ interface IndividualCustomerPageProps {
 export default async function IndividualCustomerPage({ params }: IndividualCustomerPageProps) {
 
     const customerInformationResponse = await fetch("http://localhost:8080/api/customer/" + params.customerId);
+
+    if (!customerInformationResponse.ok) {
+        return <div>Error: Customer Not Found</div>;
+    }
+
     const customerInformation: Customer = await customerInformationResponse.json();
+
+
 
     const customerOrdersResponse = await fetch("http://localhost:8080/api/order/customerid/" + params.customerId);
     const customerOrders = await customerOrdersResponse.json();
