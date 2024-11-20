@@ -2,8 +2,8 @@ import { BreadcrumbComponent } from "@/components/breadcrumb-component";
 import { EditTemplateForm } from "@/components/forms/edit-template-form";
 
 const breadcrumbItems = [
-    { label: "Home", href: "/apps/admin" },
-    { label: "Templates", href: "/apps/admin/templates" },
+    { label: "Home", href: "/apps/marketing" },
+    { label: "Templates", href: "/apps/marketing/templates" },
 ]
 
 export default async function TemplatePage({ params } : { params: { templateId: string }}) {

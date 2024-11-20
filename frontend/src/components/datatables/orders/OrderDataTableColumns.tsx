@@ -3,9 +3,31 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Order } from "@/types/Order";
-
+import { Checkbox } from "@/components/ui/checkbox";
 
 export const OrderDataTableColumns: ColumnDef<Order>[] = [
+    {
+        id: "select",
+        header: ({ table }) => (
+        <Checkbox
+            checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && "indeterminate")
+            }
+            onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+            aria-label="Select all"
+        />
+        ),
+        cell: ({ row }) => (
+        <Checkbox
+            checked={row.getIsSelected()}
+            onCheckedChange={(value) => row.toggleSelected(!!value)}
+            aria-label="Select row"
+        />
+        ),
+        enableSorting: false,
+        enableHiding: false,
+    },
     {
         accessorKey: "order_id",
         header: ({ column }) => {
@@ -32,6 +54,17 @@ export const OrderDataTableColumns: ColumnDef<Order>[] = [
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
             )
+        },
+        filterFn: (row, columnId, filterValue) => {
+            if (!filterValue || filterValue.length !== 2) {
+                return true; // no filter applied
+            }
+            const date = new Date(row.getValue(columnId));
+            const [startDate, endDate] = filterValue;
+            return (
+                (!startDate || date >= new Date(startDate)) &&
+                (!endDate || date <= new Date(endDate))
+            );
         },
     },
     {
