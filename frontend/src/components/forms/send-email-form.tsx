@@ -25,10 +25,16 @@ import { useToast } from "@/hooks/use-toast";
 import React from "react";
 
 const formSchema = z.object({
-    recipient: z.string(),
-    template: z.string().nonempty("Template is required"),
-    subject: z.string(),
-    dynamicFields: z.record(z.string(), z.string()),
+    recipient: z.string().min(1, "Recipient is required"),
+    template: z.string().min(1, "Template is required"),
+    subject: z.string().min(1, "Subject is required"),
+    dynamicFields: z.record(
+        z.string(),
+        z.string().min(1, "Field is required")
+    ).refine(
+        fields => Object.values(fields).every(value => value.trim() !== ""),
+        { message: "All fields must be filled" }
+    ),
 });
 
 export function SendEmailForm({ selectedRecipients }: { selectedRecipients: string }) {
@@ -165,6 +171,8 @@ export function SendEmailForm({ selectedRecipients }: { selectedRecipients: stri
             subject: "",
             dynamicFields: {},
         },
+        mode: "onSubmit",
+        resolver: zodResolver(formSchema),
     });
 
     const sendEmail = (data) => {
@@ -268,6 +276,33 @@ export function SendEmailForm({ selectedRecipients }: { selectedRecipients: stri
         ].filter((row) => row.length > 0);
     }, [placeholders]);
 
+    const validateField = (fieldName: string, value: string, originalPrice: number | undefined) => {
+        if (fieldName.includes("Discount Percentage")) {
+            const percentage = parseFloat(value);
+            return percentage >= 0 && percentage <= 100;
+        }
+        if (fieldName.includes("Discount Amount") && originalPrice !== undefined) {
+            const amount = parseFloat(value);
+            return amount <= originalPrice && amount >= 0;
+        }
+        return true; 
+    };
+    
+    const handleFieldValidation = (fieldName: string, value: string, rowIndex: number) => {
+        const cleanedFieldName = fieldName.replace(/dynamicFields\./, ""); 
+        const originalPrice = productPrices[`Product Price ${rowIndex + 1}`]; 
+
+        const isValid = validateField(cleanedFieldName, value, originalPrice);
+        if (!isValid) {
+            form.setError(`dynamicFields.${cleanedFieldName}`, {
+                type: "manual",
+                message: `Invalid value for ${cleanedFieldName}`,
+            });
+        } else {
+            form.clearErrors(`dynamicFields.${cleanedFieldName}`);
+        }
+    };
+    
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(sendEmail)} className="space-y-8">
@@ -405,6 +440,9 @@ export function SendEmailForm({ selectedRecipients }: { selectedRecipients: stri
                                                                     <Input
                                                                         placeholder={`Enter ${cleanedPlaceholder}`}
                                                                         {...field}
+                                                                        onBlur={(e) =>
+                                                                            handleFieldValidation(cleanedPlaceholder, e.target.value, rowIndex)
+                                                                        }
                                                                     />
                                                                 )}
                                                             </FormControl>
@@ -419,7 +457,7 @@ export function SendEmailForm({ selectedRecipients }: { selectedRecipients: stri
                             ))}
 
 
-                            <Button type="submit" className="col-span-2" onClick={() => form.handleSubmit(sendEmail)}>
+                            <Button type="submit" className="col-span-2" disabled={!form.formState.isValid} onClick={() => form.handleSubmit(sendEmail)}>
                                 Send Email
                             </Button>
 

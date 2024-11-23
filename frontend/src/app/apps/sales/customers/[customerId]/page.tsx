@@ -47,14 +47,14 @@ export default async function IndividualCustomerPage({ params }: IndividualCusto
                     </CardContent>
                 </Card>
             </div>
+            <div className="col-span-12 grid grid-cols-12 gap-4">
+                <TotalNumberOfSalesCard className={"col-span-4"} totalNumberSales={customerOrders.length} />
+                <TotalAmountFromSalesCard className={"col-span-4"} totalAmountOfSales={totalCustOrderValue} />
+                <AverageOrderValue className={"col-span-4"} averageOrderValue={custoAverageOrderValue} />
+            </div>
             <div className="col-span-12">
                 <OrderDataTable columns={OrderDataTableColumns} data={customerOrders} />
-            </div>
-
-            <TotalNumberOfSalesCard className={"col-span-4"} totalNumberSales={customerOrders.length} />
-            <TotalAmountFromSalesCard className={"col-span-4"} totalAmountOfSales={totalCustOrderValue} />
-            <AverageOrderValue className={"col-span-4"} averageOrderValue={custoAverageOrderValue} />
-
+            </div>    
         </div>
     )
 }

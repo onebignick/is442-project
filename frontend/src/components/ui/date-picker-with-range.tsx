@@ -21,10 +21,7 @@ export function DatePickerWithRange({
     className,
     onChange,  // Destructure onChange from props
 }: DatePickerWithRangeProps) {
-    const [date, setDate] = React.useState<DateRange | undefined>({
-        from: new Date(2024, 0, 1),
-        to: addDays(new Date(2024, 0, 1), 30),
-    });
+    const [date, setDate] = React.useState<DateRange | undefined>(undefined);
 
     // Handle the date selection and notify parent via onChange
     const handleDateChange = (dateRange: DateRange | undefined) => {
